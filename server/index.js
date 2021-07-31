@@ -3,6 +3,20 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, new Date().toISOString() + file.originalname);
+  },
+});
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 1024 * 1024 * 5 },
+});
 
 const authRoute = require("./routes/auth");
 const factRoute = require("./routes/facts");
@@ -21,6 +35,8 @@ const {
   getFriends,
   addFriend,
   deleteFriend,
+  postPicture,
+  getPicture,
 } = require("./handlers");
 const { verifyToken } = require("./verifyToken");
 
@@ -61,6 +77,10 @@ express()
   .post("/friends/add", addFriend)
   .put("/friends/delete", deleteFriend)
 
+  //album endpoints
+
+  .post("/picture", upload.single("productImage"), postPicture)
+  .get("/picture", getPicture)
   .use("/facts", factRoute)
 
   //////////////////////////////////////////////

@@ -24,6 +24,7 @@ const signUp = async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, salt);
   const petsArr = [];
   const friendsArr = [];
+  const albumArr = [];
 
   let newAccount = {
     _id,
@@ -32,6 +33,7 @@ const signUp = async (req, res) => {
     password: hashedPassword,
     pets: petsArr,
     friends: friendsArr,
+    album: albumArr,
   };
 
   try {
