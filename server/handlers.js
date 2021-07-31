@@ -48,6 +48,7 @@ const getProfile = async (req, res) => {
       email: req.user.user.email,
       pets: req.user.user.pets,
       friends: req.user.user.friends,
+      album: req.user.user.album,
     });
   } catch (err) {
     console.log(err);
@@ -329,9 +330,131 @@ const getFriends = async (req, res) => {
   console.log("disconnected!");
 };
 
-const addFriend = async (req, res) => {};
-const deleteFriend = async (req, res) => {};
+const addFriend = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const { _id, username } = req.body;
 
+  try {
+    await client.connect();
+    const db = client.db("data");
+    console.log("connected");
+
+    const friend = await db
+      .collection("users")
+      .findOneAndUpdate(
+        { _id: req.user.user._id },
+        { $push: { friends: { _id: _id, username: username } } }
+      );
+
+    // add myself in the friends list of my friend
+    await db.collection("users").findOneAndUpdate(
+      { _id: _id },
+      {
+        $push: {
+          friends: {
+            _id: req.user.user._id,
+            username: req.user.user.username,
+          },
+        },
+      }
+    );
+    if (friend !== undefined) {
+      res.status(200).json({
+        status: 200,
+        data: friend,
+        message: "Friend added",
+      });
+    } else {
+      res.status(400).json({ status: 400, message: "user not found" });
+    }
+  } catch (err) {
+    console.log("Error", err);
+    res.status(500).json({ status: 500, data: req.body, message: err.message });
+  }
+  client.close();
+  console.log("disconnected!");
+};
+const deleteFriend = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const { _id } = req.body;
+  try {
+    await client.connect();
+    const db = client.db("data");
+    console.log("connected");
+    console.log(req.user.user._id);
+
+    await db
+      .collection("users")
+      .updateOne(
+        { _id: req.user.user._id },
+        { $pull: { friends: { _id: _id } } }
+      );
+
+    await db
+      .collection("users")
+      .updateOne(
+        { _id: _id },
+        { $pull: { friends: { _id: req.user.user._id } } }
+      );
+
+    res.status(200).json({
+      status: 200,
+      message: "friend deleted",
+    });
+  } catch (err) {
+    console.log("Error", err);
+    res.status(500).json({ status: 500, data: req.body, message: err.message });
+  }
+  client.close();
+  console.log("disconnected!");
+};
+
+const postPicture = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const _id = uuidv4();
+
+  try {
+    await client.connect();
+    const db = client.db("data");
+    console.log("connected");
+
+    await db
+      .collection("users")
+      .findOneAndUpdate(
+        { _id: req.user.user._id },
+        { $push: { album: { _id: _id, src: req.file.path } } }
+      );
+
+    res.status(200).json({ status: 200, message: "picture added" });
+  } catch (err) {
+    console.log("Error", err);
+    res.status(500).json({ status: 500, data: req.body, message: err.message });
+  }
+  client.close();
+  console.log("disconnected!");
+};
+
+const getPicture = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+
+  try {
+    await client.connect();
+    const db = client.db("data");
+    console.log("connected");
+
+    const user = await db
+      .collection("users")
+      .find({ _id: req.user.user._id })
+      .toArray();
+
+    res.status(200).json({ status: 200, data: user, message: "picture added" });
+  } catch (err) {
+    console.log("Error", err);
+    res.status(500).json({ status: 500, data: req.body, message: err.message });
+  }
+  client.close();
+  console.log("disconnected!");
+};
 module.exports = {
   getProfile,
   getDogBreeds,
@@ -343,4 +466,6 @@ module.exports = {
   getFriends,
   addFriend,
   deleteFriend,
+  postPicture,
+  getPicture,
 };
