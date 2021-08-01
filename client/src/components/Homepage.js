@@ -30,19 +30,19 @@ const Homepage = () => {
   const [picture, setPicture] = useState(undefined);
   const [pictureStatus, setPictureStatus] = useState("loading");
 
-  useEffect(() => {
-    fetch("/picture", {
-      method: "GET",
-      headers: { "auth-token": token },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setPicture(data.data[0].album);
-        setPictureStatus("idle");
-      });
-  }, []);
-  console.log(picture);
+  // useEffect(() => {
+  //   fetch("/picture", {
+  //     method: "GET",
+  //     headers: { "auth-token": token },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       setPicture(data.data[0].album);
+  //       setPictureStatus("idle");
+  //     });
+  // }, []);
+  // console.log(picture);
   return (
     <div>
       {token === null ? (
