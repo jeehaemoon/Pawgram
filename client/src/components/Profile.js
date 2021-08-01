@@ -17,7 +17,7 @@ const Profile = () => {
       });
   }, [token]);
 
-  console.log(user);
+  console.log(token);
 
   const submitImage = () => {
     console.log(file);
