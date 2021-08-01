@@ -23,21 +23,22 @@ const factRoute = require("./routes/facts");
 //connect to
 const PORT = 4000;
 //import routes
-
 const {
-  getProfile,
   getDogBreeds,
   getCatBreeds,
   postPet,
   getPetInfo,
   editPetInfo,
   deletePet,
-  getFriends,
-  addFriend,
-  deleteFriend,
+} = require("./handlers/pet");
+const { getFriends, addFriend, deleteFriend } = require("./handlers/friends");
+const {
   postPicture,
+  getPictures,
   getPicture,
-} = require("./handlers");
+  deletePost,
+} = require("./handlers/album");
+const { getProfile } = require("./handlers/profile");
 const { verifyToken } = require("./verifyToken");
 
 express()
@@ -80,7 +81,10 @@ express()
   //album endpoints
 
   .post("/picture", upload.single("productImage"), postPicture)
-  .get("/picture", getPicture)
+  .get("/pictures", getPictures)
+  .get("/pictures/:_id", getPicture)
+  .put("/delete-post/:_id", deletePost)
+
   .use("/facts", factRoute)
 
   //////////////////////////////////////////////
