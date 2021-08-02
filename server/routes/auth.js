@@ -64,12 +64,21 @@ const signUp = async (req, res) => {
     // if user doesn't exist
     else {
       // insert the new user into the database
-      const newUser = await db.collection("users").insertOne(newAccount);
-      res.status(200).json({
-        status: 200,
-        data: newUser,
-        message: "User added.",
+      await db.collection("users").insertOne(newAccount);
+      const user = await db.collection("users").findOne({
+        _id: newAccount._id,
       });
+      jwt.sign({ user }, process.env.TOKEN_SECRET, (err, token) => {
+        user.token = token;
+        delete user.password;
+        res.json(user);
+        console.log("LOGGED IN");
+      });
+      // res.status(200).json({
+      //   status: 200,
+      //   data: newUser,
+      //   message: "User added.",
+      // });
     }
   } catch (err) {
     console.log(err);
