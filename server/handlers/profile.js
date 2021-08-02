@@ -23,6 +23,7 @@ const getProfile = async (req, res) => {
 
     // find user with the same email and username
     await db.collection("users").findOne({ _id: req.user });
+    console.log(req.user);
 
     res.send({
       _id: req.user.user._id,

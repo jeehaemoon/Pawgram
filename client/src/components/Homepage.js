@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "./UserContext";
+import React from "react";
+// import { UserContext } from "./UserContext";
 import { useHistory } from "react-router-dom";
 import { ReactComponent as SVG1 } from "../svg/vector-1-1.svg";
 import { ReactComponent as SVG2 } from "../svg/vector-1-2.svg";
@@ -7,35 +7,35 @@ import { ReactComponent as SVG2 } from "../svg/vector-1-2.svg";
 import styled from "styled-components";
 
 const Homepage = () => {
-  const { setToken, token } = useContext(UserContext);
+  // const { setToken, token } = useContext(UserContext);
   const history = useHistory();
 
-  const handleLogIn = () => {
-    fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: "g",
-        email: "h.moon@gmail.com",
-        password: "123",
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        localStorage.setItem("token", data.token);
-        setToken(data.token);
-      });
+  // const handleLogIn = () => {
+  //   fetch("/api/auth/login", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({
+  //       username: "g",
+  //       email: "h.moon@gmail.com",
+  //       password: "123",
+  //     }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       localStorage.setItem("token", data.token);
+  //       setToken(data.token);
+  //     });
 
-    history.push("/profile");
+  //   history.push("/profile");
 
-    console.log(token);
-  };
+  //   console.log(token);
+  // };
 
-  const handleLogOut = () => {
-    localStorage.removeItem("token");
-  };
-  const [picture, setPicture] = useState(undefined);
-  const [pictureStatus, setPictureStatus] = useState("loading");
+  // const handleLogOut = () => {
+  //   localStorage.removeItem("token");
+  // };
+  // const [picture, setPicture] = useState(undefined);
+  // const [pictureStatus, setPictureStatus] = useState("loading");
 
   // useEffect(() => {
   //   fetch("/picture", {
@@ -92,11 +92,26 @@ const Homepage = () => {
           overflow: "hidden",
           display: "block",
           pointerEvents: "none",
+          zIndex: -1,
         }}
       >
         <SVG1 style={{ display: "block" }} />
       </div>
-      <SVG2 style={{ position: "absolute", left: "0px", bottom: "0px" }} />
+      <div
+        style={{
+          position: "absolute",
+          left: "0px",
+          bottom: "0px",
+          borderRadius: "50%",
+          overflow: "hidden",
+          display: "block",
+          pointerEvents: "none",
+          zIndex: -1,
+        }}
+      >
+        <SVG2 style={{ display: "block" }} />
+      </div>
+
       <Cat1 alt="cat1" src="/assets/cat1.png" />
       <Cat2 alt="cat2" src="/assets/cat2.png" />
       <Plant1 alt="plant1" src="/assets/plant1.png" />

@@ -5,6 +5,7 @@ import Homepage from "./Homepage";
 import GlobalStyles from "./GlobalStyles";
 import Header from "./Header";
 import SignUp from "./SignUp";
+import LogIn from "./LogIn";
 
 function App() {
   return (
@@ -20,6 +21,9 @@ function App() {
         </Route>
         <Route exact path="/signup">
           <SignUp />
+        </Route>
+        <Route exact path="/login">
+          <LogIn />
         </Route>
       </Switch>
     </Router>

@@ -92,7 +92,7 @@ const NavLinkItem = styled(NavLink)`
   text-decoration: none;
   color: black;
   &.selected {
-    border-bottom: 5px solid #2c98fc;
+    border-bottom: 5px solid #56acf5;
   }
 `;
 

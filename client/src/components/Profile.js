@@ -3,7 +3,7 @@ import { UserContext } from "./UserContext";
 import { useHistory } from "react-router-dom";
 
 const Profile = () => {
-  const { token, setUser, user } = useContext(UserContext);
+  const { token, setUser } = useContext(UserContext);
   const [file, setFile] = useState("");
   const history = useHistory();
   useEffect(() => {
@@ -13,6 +13,7 @@ const Profile = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         setUser(data);
       });
   }, [token]);
