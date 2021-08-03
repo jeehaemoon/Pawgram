@@ -1,11 +1,13 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { UserContext } from "./UserContext";
 
 const Header = () => {
-  const { user } = useContext(UserContext);
+  const { user, token } = useContext(UserContext);
+  const history = useHistory();
 
+  console.log(user);
   return (
     <Container>
       <NavLinkItem exact to="/">
@@ -17,7 +19,7 @@ const Header = () => {
 
       {user !== undefined ? (
         <Wrapper>
-          <NavLinkItem exact to="/profile" activeClassName="selected">
+          <NavLinkItem exact to="/pets" activeClassName="selected">
             My Pets
           </NavLinkItem>
           <NavLinkItem exact to="/friends" activeClassName="selected">
@@ -26,9 +28,18 @@ const Header = () => {
           <NavLinkItem exact to="/album" activeClassName="selected">
             Album
           </NavLinkItem>
-          <NavLinkItem exact to="/" activeClassName="selected">
+          <Name>
             {user.username}
-          </NavLinkItem>
+            <Dropdown
+              onClick={() => {
+                localStorage.removeItem("token");
+                history.push("/");
+                window.location.reload();
+              }}
+            >
+              Log Out
+            </Dropdown>
+          </Name>
         </Wrapper>
       ) : (
         <Wrapper2>
@@ -94,6 +105,25 @@ const NavLinkItem = styled(NavLink)`
   &.selected {
     border-bottom: 5px solid #56acf5;
   }
+`;
+
+const Name = styled.div`
+  &:hover {
+    display: block;
+    > div {
+      display: block;
+    }
+  }
+`;
+
+const Dropdown = styled.div`
+  display: none;
+  position: absolute;
+  /* background-color: #2cade0; */
+  width: 100%;
+  color: #fc7750;
+  /* padding: 10px; */
+  cursor: pointer;
 `;
 
 export default Header;

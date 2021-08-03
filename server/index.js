@@ -37,6 +37,8 @@ const {
   getPictures,
   getPicture,
   deletePost,
+  postComment,
+  deleteComment,
 } = require("./handlers/album");
 const { getProfile } = require("./handlers/profile");
 const { verifyToken } = require("./verifyToken");
@@ -84,6 +86,8 @@ express()
   .get("/pictures", getPictures)
   .get("/pictures/:_id", getPicture)
   .put("/delete-post/:_id", deletePost)
+  .post("/pictures/:_id/comment", postComment)
+  .put("/pictures/:_id/delete-comment", deleteComment)
 
   .use("/facts", factRoute)
 

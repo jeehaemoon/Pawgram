@@ -81,7 +81,7 @@ const SignUp = () => {
           } else {
             localStorage.setItem("token", data.token);
             setToken(data.token);
-            history.push("/profile");
+            history.push("/pets");
           }
         })
         .catch((err) => {
@@ -140,7 +140,7 @@ const SignUp = () => {
         ) : usernameExists ? (
           <Warning>Username is already taken</Warning>
         ) : emailExists ? (
-          <Warning>Email already exists. Go to the Sign In page.</Warning>
+          <Warning>Email already exists. Go to the Log In page.</Warning>
         ) : null}
       </Form>
 
