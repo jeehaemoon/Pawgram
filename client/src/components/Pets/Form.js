@@ -68,13 +68,14 @@ const Form = () => {
       formData.gender === "" ||
       formData.type === "" ||
       formData.age === "" ||
-      formData.breed === ""
+      formData.breed === "" ||
+      file === undefined
     ) {
       setButtonState(true);
     } else {
       setButtonState(false);
     }
-  }, [formData]);
+  }, [formData, file]);
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
@@ -95,7 +96,9 @@ const Form = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        history.push("/pets");
+        if (data.status === 200) {
+          history.push("/pets");
+        }
       })
       .catch((err) => {
         console.error(err);
