@@ -70,9 +70,9 @@ const Pets = () => {
                 <Pet key={index} exact to={`/pets/${pet._id}`}>
                   <ImageDiv>
                     {pet.src === undefined && pet.type === "cat" ? (
-                      <Img alt="cat" src="/assets/cat1.png" />
+                      <Img alt="cat" src="/assets/cat2.png" />
                     ) : pet.src === undefined && pet.type === "dog" ? (
-                      <Img alt="cat" src="/assets/cat1.png" />
+                      <Img alt="cat" src="/assets/dog1.png" />
                     ) : (
                       <Img alt={pet.name} src={pet.src} />
                     )}
@@ -114,7 +114,7 @@ const PetList = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   margin-top: 20px;
   width: 1000px;
 `;
@@ -166,7 +166,6 @@ const ImageDiv = styled.div`
 `;
 const Img = styled.img`
   width: 200px;
-  height: 100px;
 `;
 
 const Name = styled.div`

@@ -123,7 +123,7 @@ const postPet = async (req, res) => {
         name,
         info,
         breed,
-        src: req.file.path,
+        src: "/uploads/" + req.file.filename,
       });
 
       res.status(200).json({
@@ -144,7 +144,7 @@ const postPet = async (req, res) => {
         name,
         info,
         breed,
-        src: req.file.path,
+        src: "/uploads/" + req.file.filename,
       });
 
       res.status(200).json({
@@ -223,6 +223,7 @@ const editPetInfo = async (req, res) => {
             gender: gender,
             age: age,
             info: info,
+            breed: breed,
           },
         }
       );
@@ -230,7 +231,7 @@ const editPetInfo = async (req, res) => {
       res.status(200).json({
         status: 200,
         data: pet,
-        message: "Dog added",
+        message: "Dog edited",
       });
     } else if (type === "cat") {
       const data = await request(optionsApiCatBreed);
@@ -246,6 +247,7 @@ const editPetInfo = async (req, res) => {
             gender: gender,
             age: age,
             info: info,
+            breed: breed,
           },
         }
       );
@@ -253,7 +255,7 @@ const editPetInfo = async (req, res) => {
       res.status(200).json({
         status: 200,
         data: pet,
-        message: "Cat added",
+        message: "Cat edited",
       });
     }
   } catch (err) {

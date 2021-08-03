@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { NavLink, useHistory } from "react-router-dom";
 import { ReactComponent as SVG3 } from "../../svg/vector-1-3.svg";
-import { ReactComponent as SVG4 } from "../../svg/vector-1-4.svg";
 import { UserContext } from "../UserContext";
 import Input from "../Input";
 
@@ -214,21 +213,6 @@ const Form = () => {
       >
         <SVG3 style={{ display: "block" }} />
       </div>
-
-      {/* <div
-        style={{
-          position: "absolute",
-          right: "0px",
-          bottom: "0px",
-          borderRadius: "50%",
-          overflow: "hidden",
-          display: "block",
-          pointerEvents: "none",
-          zIndex: -1,
-        }}
-      >
-        <SVG4 style={{ display: "block" }} />
-      </div> */}
     </Container>
   );
 };

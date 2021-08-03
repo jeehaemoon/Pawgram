@@ -6,8 +6,6 @@ import { UserContext } from "./UserContext";
 const Header = () => {
   const { user, token } = useContext(UserContext);
   const history = useHistory();
-
-  console.log(user);
   return (
     <Container>
       <NavLinkItem exact to="/">
