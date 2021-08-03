@@ -6,10 +6,7 @@ import { ReactComponent as SVG4 } from "../../svg/vector-1-4.svg";
 import { UserContext } from "../UserContext";
 import Input from "../Input";
 
-const { v4: uuidv4 } = require("uuid");
-
 const initialState = {
-  _id: "",
   type: "",
   breed: "",
   name: "",
@@ -23,7 +20,20 @@ const Form = () => {
   const [breedState, setBreedState] = useState("loading");
   const [buttonState, setButtonState] = useState(true);
   const { token, setUser, user } = useContext(UserContext);
-  const _id = uuidv4();
+  const history = useHistory();
+  const [file, setFile] = useState("");
+
+  useEffect(() => {
+    fetch("/profile", {
+      method: "GET",
+      headers: { "auth-token": token },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setUser(data);
+      });
+  }, [token]);
 
   //retrieve breeds depending on the pet type selection
   useEffect(() => {
@@ -49,19 +59,63 @@ const Form = () => {
         });
     }
   }, [formData.type]);
-
-  console.log(formData);
   const handleChange = (val, item) => {
     setFormData({ ...formData, [item]: val });
   };
 
-  const handleSubmit = () => {};
+  useEffect(() => {
+    if (
+      formData.name === "" ||
+      formData.gender === "" ||
+      formData.type === "" ||
+      formData.age === "" ||
+      formData.breed === ""
+    ) {
+      setButtonState(true);
+    } else {
+      setButtonState(false);
+    }
+  }, [formData]);
+
+  const handleSubmit = (ev) => {
+    ev.preventDefault();
+    console.log(formData);
+    const data = new FormData();
+    data.append("productImage", file);
+    data.append("type", formData.type);
+    data.append("gender", formData.gender);
+    data.append("breed", formData.breed);
+    data.append("name", formData.name);
+    data.append("age", formData.age);
+
+    fetch("/pet", {
+      method: "POST",
+      headers: { "auth-token": token },
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        history.push("/pets");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
   return (
     <Container>
       <PetForm id="petForm">
+        <Dog1 alt="dog" src="/assets/dog1.png" />
+        <Cat1 alt="cat" src="/assets/cat2.png" />
         <Title>Add Pet</Title>
+        <input
+          type="file"
+          onChange={(ev) => {
+            setFile(ev.target.files[0]);
+          }}
+        ></input>
         <div>
-          <input
+          <Cat
             type="radio"
             id="cat"
             name="type"
@@ -69,7 +123,7 @@ const Form = () => {
             onChange={(ev) => handleChange(ev.target.value, "type")}
           />
           <label htmlFor="cat">Cat</label>
-          <input
+          <Dog
             type="radio"
             id="dog"
             name="type"
@@ -80,11 +134,11 @@ const Form = () => {
         </div>
         <Breed>
           {breedState === "loading" ? (
-            <select>
-              <option></option>
-            </select>
+            <Select>
+              <option value="">Breed</option>
+            </Select>
           ) : (
-            <select
+            <Select
               onFocus={(ev) => {
                 ev.target.size = 3;
               }}
@@ -99,19 +153,57 @@ const Form = () => {
               {petBreeds.map((breed, index) => {
                 return <option key={index}>{breed}</option>;
               })}
-            </select>
+            </Select>
           )}
         </Breed>
-        <Input />
-        <Input />
-        <Input />
-        <button>Submit</button>
+        <Name
+          type="text"
+          name="name"
+          placeholder="Name"
+          onChange={(ev) => handleChange(ev.target.value, "name")}
+          value={formData.name}
+          required
+        />
+        <div>
+          <input
+            type="radio"
+            id="female"
+            name="gender"
+            value="female"
+            onChange={(ev) => handleChange(ev.target.value, "gender")}
+          />
+          <label htmlFor="cat">Female</label>
+          <input
+            type="radio"
+            id="male"
+            name="gender"
+            value="male"
+            onChange={(ev) => handleChange(ev.target.value, "gender")}
+          />
+          <label htmlFor="dog">Male</label>
+        </div>
+        <div>
+          <Age
+            type="number"
+            name="age"
+            placeholder="Age"
+            onChange={(ev) => handleChange(ev.target.value, "age")}
+            value={formData.age}
+            min="0"
+            max="30"
+            required
+          />
+          <label htmlFor="age">Year(s) Old</label>
+        </div>
+        <Button disabled={buttonState} onClick={handleSubmit}>
+          Submit
+        </Button>
       </PetForm>
 
       <div
         style={{
           position: "absolute",
-          left: "0px",
+          left: "300px",
           top: "0px",
           borderRadius: "50%",
           overflow: "hidden",
@@ -123,7 +215,7 @@ const Form = () => {
         <SVG3 style={{ display: "block" }} />
       </div>
 
-      <div
+      {/* <div
         style={{
           position: "absolute",
           right: "0px",
@@ -136,7 +228,7 @@ const Form = () => {
         }}
       >
         <SVG4 style={{ display: "block" }} />
-      </div>
+      </div> */}
     </Container>
   );
 };
@@ -155,17 +247,84 @@ const PetForm = styled.form`
   display: flex;
   flex-direction: column;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+
+  input {
+    margin-bottom: 20px;
+  }
+
+  select {
+    margin-bottom: 20px;
+  }
 `;
 
 const Title = styled.p`
   font-size: 38px;
   font-weight: bold;
+  margin-bottom: 20px;
 `;
 
 const Breed = styled.div`
   width: 200px;
   select {
     width: 100%;
+  }
+`;
+
+const Age = styled.input`
+  width: 70px;
+  margin-right: 10px;
+  padding: 5px 10px;
+`;
+
+const Name = styled.input`
+  width: 200px;
+  padding: 5px 10px;
+`;
+
+const Select = styled.select`
+  padding: 5px 10px;
+`;
+
+const Cat = styled.input``;
+
+const Dog = styled.input`
+  margin-left: 10px;
+`;
+
+const Dog1 = styled.img`
+  position: absolute;
+  bottom: 0px;
+  right: 400px;
+  width: 300px;
+`;
+const Cat1 = styled.img`
+  position: absolute;
+  bottom: 0px;
+  left: 400px;
+  width: 300px;
+`;
+
+const Button = styled.button`
+  width: 70%;
+  z-index: 5;
+  margin: 0px auto;
+  margin-top: 10px;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  padding: 5px;
+  font-size: 18px;
+  box-shadow: 3px -3px black, 2px -2px black, 1px -1px black;
+  border-radius: 25px;
+  border: 1px solid black;
+  :active {
+    -webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
+    -moz-box-shadow: inset 0px 0px 5px #c1c1c1;
+    box-shadow: inset 0px 0px 5px #c1c1c1;
+    outline: none;
+  }
+  :disabled {
+    opacity: 0.5;
   }
 `;
 

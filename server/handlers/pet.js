@@ -87,28 +87,44 @@ const getCatBreeds = async (req, res) => {
 
 const postPet = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
-
-  const { _id, type, breed, name, gender, age } = req.body;
+  const _id = uuidv4();
+  const { type, breed, name, gender, age } = req.body;
+  console.log(req.file);
   try {
     await client.connect();
     const db = client.db("data");
     console.log("connected");
 
-    await db
-      .collection("users")
-      .findOneAndUpdate(
-        { _id: req.user.user._id },
-        { $push: { pets: { _id: _id, name: name, src: req.file.path } } }
-      );
+    console.log(req.body);
+    await db.collection("users").findOneAndUpdate(
+      { _id: req.user.user._id },
+      {
+        $push: {
+          pets: {
+            _id: _id,
+            name: name,
+            type: type,
+            src: req.file.path,
+          },
+        },
+      }
+    );
 
     if (type === "dog") {
       const data = await request(optionsApiDogBreed);
 
       const info = data.filter((dog) => dog.name === breed);
 
-      const pet = await db
-        .collection("pets")
-        .insertOne({ _id, type, gender, age, name, info, src: req.file.path });
+      const pet = await db.collection("pets").insertOne({
+        _id,
+        type,
+        gender,
+        age,
+        name,
+        info,
+        breed,
+        src: req.file.path,
+      });
 
       res.status(200).json({
         status: 200,
@@ -120,9 +136,16 @@ const postPet = async (req, res) => {
 
       const info = data.filter((cat) => cat.name === breed);
 
-      const pet = await db
-        .collection("pets")
-        .insertOne({ _id, type, gender, age, name, info });
+      const pet = await db.collection("pets").insertOne({
+        _id,
+        type,
+        gender,
+        age,
+        name,
+        info,
+        breed,
+        src: req.file.path,
+      });
 
       res.status(200).json({
         status: 200,
@@ -142,7 +165,7 @@ const postPet = async (req, res) => {
 const getPetInfo = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const { _id } = req.params;
-
+  console.log(_id);
   try {
     await client.connect();
     const db = client.db("data");

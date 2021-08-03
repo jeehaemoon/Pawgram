@@ -70,7 +70,7 @@ express()
   //pet endpoints
   .get("/dogbreeds", getDogBreeds)
   .get("/catbreeds", getCatBreeds)
-  .post("/pet", postPet)
+  .post("/pet", upload.single("productImage"), postPet)
   .get("/pet/:_id", getPetInfo)
   .put("/pet/edit", editPetInfo)
   .put("/pet/delete", deletePet)

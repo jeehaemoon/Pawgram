@@ -24,7 +24,7 @@ const Album = () => {
     history.push("/");
   };
   return (
-    <div>
+    <div style={{ marginTop: "20vh" }}>
       <h1>Profile</h1>
       <form onSubmit={submitImage}>
         <input
