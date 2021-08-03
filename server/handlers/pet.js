@@ -96,6 +96,9 @@ const postPet = async (req, res) => {
     console.log("connected");
 
     console.log(req.body);
+    if (req.file === undefined) {
+      res.status(400).json({ status: 400, message: "No Picture added" });
+    }
     await db.collection("users").findOneAndUpdate(
       { _id: req.user.user._id },
       {

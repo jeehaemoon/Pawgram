@@ -18,7 +18,7 @@ const PetInfo = () => {
   const { _id } = useParams();
   const history = useHistory();
 
-  console.log(formData);
+  console.log(breedInfo);
   const handleChange = (val, item) => {
     setFormData({ ...formData, [item]: val });
   };
@@ -136,18 +136,14 @@ const PetInfo = () => {
 
   return (
     <Container>
-      {breedStatus === "loading" || formData === undefined ? (
+      {breedStatus === "loading" ||
+      formData === undefined ||
+      breedInfo === undefined ? (
         <div>Loading...</div>
       ) : (
         <Wrapper>
           <PetDiv>
-            {breedInfo.src === undefined && breedInfo.type === "cat" ? (
-              <Img alt="cat" src="/assets/cat2.png" />
-            ) : breedInfo.src === undefined && breedInfo.type === "dog" ? (
-              <Img alt="cat" src="/assets/dog1.png" />
-            ) : (
-              <Img alt={breedInfo.name} src={breedInfo.src} />
-            )}
+            <Img alt={breedInfo.name} src={breedInfo.src} />
             <Info>
               <div>
                 <span>Name: </span>
