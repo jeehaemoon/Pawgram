@@ -39,6 +39,7 @@ const postPicture = async (req, res) => {
       src: req.file.path,
       note: note,
       owner: req.user.user._id,
+      comments: [],
     });
     res.status(200).json({ status: 200, message: "picture added" });
   } catch (err) {
@@ -137,9 +138,77 @@ const deletePost = async (req, res) => {
   console.log("disconnected!");
 };
 
+const postComment = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const commentId = uuidv4();
+  const date = new Date().toLocaleDateString();
+  const time = new Date().toLocaleTimeString();
+
+  const { comment } = req.body;
+  const { _id } = req.params;
+
+  try {
+    await client.connect();
+    const db = client.db("data");
+    console.log("connected");
+
+    await db.collection("pictures").findOneAndUpdate(
+      { _id: _id },
+      {
+        $push: {
+          comments: {
+            _id: commentId,
+            date: date,
+            time: time,
+            comment: comment,
+            author: req.user.user._id,
+          },
+        },
+      }
+    );
+
+    res.status(200).json({ status: 200, message: "comment added" });
+  } catch (err) {
+    console.log("Error", err);
+    res.status(500).json({ status: 500, data: req.body, message: err.message });
+  }
+  client.close();
+  console.log("disconnected!");
+};
+
+const deleteComment = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const commentId = req.body._id;
+  const { _id } = req.params;
+
+  try {
+    await client.connect();
+    const db = client.db("data");
+    console.log("connected");
+
+    await db
+      .collection("pictures")
+      .updateOne({ _id: _id }, { $pull: { comments: { _id: commentId } } });
+
+    res.status(200).json({
+      status: 200,
+      message: "comment deleted",
+    });
+  } catch (err) {
+    console.log(err);
+    // on failure, send
+    res.status(500).json({ status: 500, data: req.body, message: err.message });
+  }
+
+  client.close();
+  console.log("disconnected!");
+};
+
 module.exports = {
   postPicture,
   getPictures,
   getPicture,
   deletePost,
+  postComment,
+  deleteComment,
 };

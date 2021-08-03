@@ -2,23 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "./UserContext";
 import { useHistory } from "react-router-dom";
 
-const Profile = () => {
+const Album = () => {
   const { token, setUser } = useContext(UserContext);
   const [file, setFile] = useState("");
   const history = useHistory();
-  useEffect(() => {
-    fetch("/profile", {
-      method: "GET",
-      headers: { "auth-token": token },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setUser(data);
-      });
-  }, [token]);
-
-  console.log(token);
 
   const submitImage = () => {
     console.log(file);
@@ -52,4 +39,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Album;

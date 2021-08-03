@@ -16,6 +16,18 @@ export const UserProvider = ({ children }) => {
     setToken(userToken);
   }, [token]);
 
+  useEffect(() => {
+    fetch("/profile", {
+      method: "GET",
+      headers: { "auth-token": token },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setUser(data);
+      });
+  }, [token]);
+
   return (
     <UserContext.Provider value={{ setToken, token, setUser, user }}>
       {children}

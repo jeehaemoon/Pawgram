@@ -98,7 +98,7 @@ const postPet = async (req, res) => {
       .collection("users")
       .findOneAndUpdate(
         { _id: req.user.user._id },
-        { $push: { pets: { _id: _id, name: name } } }
+        { $push: { pets: { _id: _id, name: name, src: req.file.path } } }
       );
 
     if (type === "dog") {
@@ -108,7 +108,7 @@ const postPet = async (req, res) => {
 
       const pet = await db
         .collection("pets")
-        .insertOne({ _id, type, gender, age, name, info });
+        .insertOne({ _id, type, gender, age, name, info, src: req.file.path });
 
       res.status(200).json({
         status: 200,
