@@ -22,16 +22,18 @@ const getProfile = async (req, res) => {
     console.log("connected");
 
     // find user with the same email and username
-    await db.collection("users").findOne({ _id: req.user });
-    console.log(req.user);
+    const profile = await db
+      .collection("users")
+      .findOne({ _id: req.user.user._id });
+    console.log(profile);
 
     res.send({
-      _id: req.user.user._id,
-      username: req.user.user.username,
-      email: req.user.user.email,
-      pets: req.user.user.pets,
-      friends: req.user.user.friends,
-      album: req.user.user.album,
+      _id: profile._id,
+      username: profile.username,
+      email: profile.email,
+      pets: profile.pets,
+      friends: profile.friends,
+      album: profile.album,
     });
   } catch (err) {
     console.log(err);

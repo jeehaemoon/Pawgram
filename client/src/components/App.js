@@ -7,6 +7,8 @@ import Header from "./Header";
 import SignUp from "./SignUp";
 import LogIn from "./LogIn";
 import Form from "./Pets/Form";
+import PetInfo from "./Pets/PetInfo";
+import Album from "./Album";
 
 function App() {
   return (
@@ -28,6 +30,12 @@ function App() {
         </Route>
         <Route exact path="/add-pet">
           <Form />
+        </Route>
+        <Route exact path="/pets/:_id">
+          <PetInfo />
+        </Route>
+        <Route exact path="/album">
+          <Album />
         </Route>
       </Switch>
     </Router>

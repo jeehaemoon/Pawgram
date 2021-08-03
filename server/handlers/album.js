@@ -25,6 +25,7 @@ const postPicture = async (req, res) => {
     const db = client.db("data");
     console.log("connected");
 
+    console.log(req.file);
     await db
       .collection("users")
       .findOneAndUpdate(

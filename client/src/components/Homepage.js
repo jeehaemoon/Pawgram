@@ -51,7 +51,7 @@ const Homepage = () => {
         {token !== null ? (
           <Button
             onClick={() => {
-              history.push("/profile");
+              history.push("/pets");
             }}
           >
             Get Started
