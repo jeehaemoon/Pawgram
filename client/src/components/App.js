@@ -8,7 +8,9 @@ import SignUp from "./SignUp";
 import LogIn from "./LogIn";
 import Form from "./Pets/Form";
 import PetInfo from "./Pets/PetInfo";
-import Album from "./Album";
+import Album from "../components/Album";
+import PictureForm from "./Album/PictureForm";
+import Picture from "./Album/Picture";
 
 function App() {
   return (
@@ -36,6 +38,12 @@ function App() {
         </Route>
         <Route exact path="/album">
           <Album />
+        </Route>
+        <Route exact path="/add-picture">
+          <PictureForm />
+        </Route>
+        <Route exact path="/pictures/:_id">
+          <Picture />
         </Route>
       </Switch>
     </Router>

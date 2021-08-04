@@ -6,6 +6,7 @@ import { UserContext } from "../UserContext";
 import { ReactComponent as SVG3 } from "../../svg/vector-1-3.svg";
 import { ReactComponent as SVG4 } from "../../svg/vector-1-4.svg";
 import Input from "../Input";
+import Loading from "../Loading";
 
 const PetInfo = () => {
   const { token, setUser } = useContext(UserContext);
@@ -32,6 +33,9 @@ const PetInfo = () => {
       .then((res) => res.json())
       .then((data) => {
         setUser(data);
+      })
+      .catch((err) => {
+        console.error(err);
       });
   }, [token]);
 
@@ -53,6 +57,9 @@ const PetInfo = () => {
           breed: data.data.breed,
           gender: data.data.gender,
         });
+      })
+      .catch((err) => {
+        console.error(err);
       });
   }, []);
 
@@ -89,6 +96,7 @@ const PetInfo = () => {
     }
   }, [breedInfo]);
 
+  console.log(fact);
   const showBreed = () => {
     setTabType("breedinfo");
   };
@@ -139,7 +147,9 @@ const PetInfo = () => {
       {breedStatus === "loading" ||
       formData === undefined ||
       breedInfo === undefined ? (
-        <div>Loading...</div>
+        <LoadingDiv>
+          <Loading />
+        </LoadingDiv>
       ) : (
         <Wrapper>
           <PetDiv>
@@ -157,24 +167,7 @@ const PetInfo = () => {
               </div>
               <div>
                 <span>Type: </span>
-                <Cat
-                  type="radio"
-                  id="cat"
-                  name="type"
-                  value="cat"
-                  checked={formData.type === "cat"}
-                  onChange={(ev) => handleChange(ev.target.value, "type")}
-                />
-                <label htmlFor="cat">Cat</label>
-                <Dog
-                  type="radio"
-                  id="dog"
-                  name="type"
-                  value="dog"
-                  checked={formData.type === "dog"}
-                  onChange={(ev) => handleChange(ev.target.value, "type")}
-                />
-                <label htmlFor="dog">Dog</label>
+                {breedInfo.type}{" "}
               </div>
               <div>
                 <span>Age: </span>
@@ -256,43 +249,20 @@ const PetInfo = () => {
                 <span>Temperament:</span> {breedInfo.info[0].temperament}
               </div>
             </BreedInfo>
-          ) : tabType === "random" && factStatus === "idle" ? (
+          ) : tabType === "random" &&
+            factStatus === "idle" &&
+            breedInfo.type === "dog" ? (
             <RandomFact>{fact[0]}</RandomFact>
+          ) : tabType === "random" &&
+            factStatus === "idle" &&
+            breedInfo.type === "cat" ? (
+            <RandomFact>{fact}</RandomFact>
           ) : tabType === "random" && factStatus === "loading" ? (
             <div>Loading...</div>
           ) : null}
           <DeleteButton onClick={() => handleDelete()}>Delete Pet</DeleteButton>
         </Wrapper>
       )}
-      <div
-        style={{
-          position: "absolute",
-          left: "0px",
-          top: "0px",
-          borderRadius: "50%",
-          overflow: "hidden",
-          display: "block",
-          pointerEvents: "none",
-          zIndex: -1,
-        }}
-      >
-        <SVG3 style={{ display: "block" }} />
-      </div>
-
-      <div
-        style={{
-          position: "absolute",
-          right: "0px",
-          bottom: "0px",
-          borderRadius: "50%",
-          overflow: "hidden",
-          display: "block",
-          pointerEvents: "none",
-          zIndex: -1,
-        }}
-      >
-        <SVG4 style={{ display: "block" }} />
-      </div>
     </Container>
   );
 };
@@ -426,5 +396,12 @@ const Dog = styled.input`
 
 const Age = styled.input`
   margin-right: 10px;
+`;
+
+const LoadingDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
 `;
 export default PetInfo;

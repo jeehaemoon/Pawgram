@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../UserContext";
 import { useHistory, NavLink } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
+import Loading from "../Loading";
 
 const Pets = () => {
   const { token, setUser, user } = useContext(UserContext);
@@ -20,6 +21,9 @@ const Pets = () => {
         setUser(data);
         setPetsStatus("idle");
         setPets(data.pets);
+      })
+      .catch((err) => {
+        console.error(err);
       });
   }, [token]);
 
@@ -54,11 +58,16 @@ const Pets = () => {
         <button type="submit">Submit</button>
       </form> */}
       {petsStatus === "loading" ? (
-        <div style={{ marginTop: "20vh" }}>Loading...</div>
+        <LoadingDiv>
+          <Loading />
+        </LoadingDiv>
       ) : user.pets.length === 0 ? (
         <NoPet>
           <Button onClick={() => history.push("/add-pet")}>Add Pet</Button>
-          <Cat1 alt="cat" src="/assets/cat1.png" />
+          <CatRolling>
+            <Cat1 alt="cat" src="/assets/cat1.png" />
+            <Yarn alt="yarn" src="/assets/yarn.png" />
+          </CatRolling>
           You have no pets.
         </NoPet>
       ) : (
@@ -69,13 +78,7 @@ const Pets = () => {
               return (
                 <Pet key={index} exact to={`/pets/${pet._id}`}>
                   <ImageDiv>
-                    {pet.src === undefined && pet.type === "cat" ? (
-                      <Img alt="cat" src="/assets/cat2.png" />
-                    ) : pet.src === undefined && pet.type === "dog" ? (
-                      <Img alt="cat" src="/assets/dog1.png" />
-                    ) : (
-                      <Img alt={pet.name} src={pet.src} />
-                    )}
+                    <Img alt={pet.name} src={pet.src} />
                   </ImageDiv>
                   <Name>{pet.name}</Name>
                   <Type>{pet.type}</Type>
@@ -89,6 +92,32 @@ const Pets = () => {
   );
 };
 
+const rollingAnimation = keyframes`
+  0%{
+    transform: translate(0px) rotate(0deg);
+  }
+  50% {
+    transform:translate(100px) rotate(360deg);
+  }
+  100%{
+    transform: translate(0px) rotate(0deg);
+  }
+
+`;
+
+const slideInAnimation = keyframes`
+  0% {
+    transform: translate(0px) ;
+  }
+  50% {
+    transform:translate(100px) ;
+  }
+  100%{
+    transform: translate(0px) ;
+
+  }
+`;
+
 const Container = styled.div`
   height: 80vh;
   text-align: left;
@@ -100,6 +129,7 @@ const NoPet = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-size: larger;
 `;
 
 const Wrapper = styled.div`
@@ -121,6 +151,17 @@ const PetList = styled.div`
 
 const Cat1 = styled.img`
   width: 200px;
+  animation-name: ${slideInAnimation};
+  animation-duration: 3s;
+  animation-iteration-count: 1;
+`;
+
+const Yarn = styled.img`
+  width: 50px;
+  height: 50px;
+  animation-name: ${rollingAnimation};
+  animation-duration: 3s;
+  animation-iteration-count: 1;
 `;
 
 const Pet = styled(NavLink)`
@@ -177,5 +218,20 @@ const Name = styled.div`
 const Type = styled.div`
   color: gray;
   transform: translate(0, -50%);
+`;
+
+const CatRolling = styled.div`
+  display: flex;
+  justify-content: baseline;
+  align-items: baseline;
+  margin-top: 100px;
+`;
+
+const LoadingDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  margin-top: 20vh;
 `;
 export default Pets;

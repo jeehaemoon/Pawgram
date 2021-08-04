@@ -37,7 +37,7 @@ const postPicture = async (req, res) => {
       _id: _id,
       date: date,
       time: time,
-      src: req.file.path,
+      src: "/uploads/" + req.file.filename,
       note: note,
       owner: req.user.user._id,
       comments: [],
@@ -58,21 +58,21 @@ const getPictures = async (req, res) => {
     const db = client.db("data");
     console.log("connected");
 
-    const picture = await db.collection("pictures").find().toArray();
+    // const picture = await db.collection("pictures").find().toArray();
 
-    const pictureByUser = picture.filter(
-      (item) => item.owner === req.user.user._id
-    );
+    // const pictureByUser = picture.filter(
+    //   (item) => item.owner === req.user.user._id
+    // );
 
-    if (pictureByUser.length !== 0) {
-      res.status(200).json({
-        status: 200,
-        data: pictureByUser,
-        message: "pictures retrieved",
-      });
-    } else {
-      res.status(400).json({ status: 400, message: "no pictures" });
-    }
+    const user = await db
+      .collection("users")
+      .findOne({ _id: req.user.user._id });
+
+    res.status(200).json({
+      status: 200,
+      data: user,
+      message: "pictures retrieved",
+    });
   } catch (err) {
     console.log("Error", err);
     res.status(500).json({ status: 500, data: req.body, message: err.message });
