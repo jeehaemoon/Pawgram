@@ -1,9 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
-import { NavLink, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { ReactComponent as SVG3 } from "../../svg/vector-1-3.svg";
 import { UserContext } from "../UserContext";
-import Input from "../Input";
 
 const initialState = {
   type: "",
@@ -45,6 +44,9 @@ const Form = () => {
         .then((data) => {
           setPetBreeds(data.data);
           setBreedState("idle");
+        })
+        .catch((err) => {
+          console.error(err);
         });
     } else if (formData.type === "cat") {
       fetch("/catbreeds", {
@@ -55,6 +57,9 @@ const Form = () => {
         .then((data) => {
           setPetBreeds(data.data);
           setBreedState("idle");
+        })
+        .catch((err) => {
+          console.error(err);
         });
     }
   }, [formData.type]);
@@ -107,8 +112,6 @@ const Form = () => {
   return (
     <Container>
       <PetForm id="petForm">
-        <Dog1 alt="dog" src="/assets/dog1.png" />
-        <Cat1 alt="cat" src="/assets/cat2.png" />
         <Title>Add Pet</Title>
         <input
           type="file"
@@ -201,7 +204,8 @@ const Form = () => {
           Submit
         </Button>
       </PetForm>
-
+      <Dog1 alt="dog" src="/assets/dog1.png" />
+      <Cat1 alt="cat" src="/assets/cat2.png" />
       <div
         style={{
           position: "absolute",
@@ -281,13 +285,13 @@ const Dog = styled.input`
 const Dog1 = styled.img`
   position: absolute;
   bottom: 0px;
-  right: 400px;
+  right: 350px;
   width: 300px;
 `;
 const Cat1 = styled.img`
   position: absolute;
   bottom: 0px;
-  left: 400px;
+  left: 350px;
   width: 300px;
 `;
 
