@@ -163,6 +163,7 @@ const postComment = async (req, res) => {
             time: time,
             comment: comment,
             author: req.user.user._id,
+            username: req.user.user.username,
           },
         },
       }
@@ -182,6 +183,7 @@ const deleteComment = async (req, res) => {
   const commentId = req.body._id;
   const { _id } = req.params;
 
+  console.log(_id);
   try {
     await client.connect();
     const db = client.db("data");
