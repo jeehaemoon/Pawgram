@@ -3,8 +3,6 @@ import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { UserContext } from "../UserContext";
-import { ReactComponent as SVG3 } from "../../svg/vector-1-3.svg";
-import { ReactComponent as SVG4 } from "../../svg/vector-1-4.svg";
 import Input from "../Input";
 import Loading from "../Loading";
 
@@ -15,6 +13,7 @@ const PetInfo = () => {
   const [tabType, setTabType] = React.useState("breedinfo");
   const [fact, setFact] = useState(undefined);
   const [factStatus, setFactStatus] = useState("loading");
+  const [userStatus, setUserStatus] = useState("loading");
   const [formData, setFormData] = useState(undefined);
   const { _id } = useParams();
   const history = useHistory();
@@ -32,6 +31,7 @@ const PetInfo = () => {
       .then((res) => res.json())
       .then((data) => {
         setUser(data);
+        setUserStatus("idle");
       })
       .catch((err) => {
         console.error(err);
@@ -143,6 +143,7 @@ const PetInfo = () => {
   return (
     <Container>
       {breedStatus === "loading" ||
+      userStatus === "loading" ||
       formData === undefined ||
       breedInfo === undefined ? (
         <LoadingDiv>
@@ -347,7 +348,6 @@ const Button = styled.button`
 
 const Img = styled.img`
   width: 50%;
-  height: 150px;
   margin-right: 10px;
 `;
 

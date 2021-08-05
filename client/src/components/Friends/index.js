@@ -25,22 +25,23 @@ const Friends = () => {
   }, [token]);
   return (
     <Container>
+      <SearchBar />
       <Wrapper>
-        <SearchBar />
-
         {userStatus === "loading" ? (
           <LoadingDiv>
             <Loading />
           </LoadingDiv>
         ) : user.friends.length === 0 ? (
-          <div>No Friends</div>
+          <NoFriendDiv>
+            <DogPic alt="dog" src="/assets/dog2.png" />
+          </NoFriendDiv>
         ) : (
           <FriendsWrapper>
             {user.friends.map((friend, index) => {
               return (
-                <NavLink key={index} exact to={`/friends/${friend._id}`}>
-                  {friend.username}
-                </NavLink>
+                <FriendLink key={index} exact to={`/friends/${friend._id}`}>
+                  @{friend.username}
+                </FriendLink>
               );
             })}
           </FriendsWrapper>
@@ -51,21 +52,57 @@ const Friends = () => {
 };
 
 const Container = styled.div`
-  height: 80vh;
-  text-align: left;
-`;
-const Wrapper = styled.div`
   margin: 15vh 0px;
-  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
-
-const LoadingDiv = styled.div`
-  margin-top: 30vh;
+const Wrapper = styled.div`
+  margin: 5vh auto;
+  max-width: 100vh;
+  height: 60vh;
+  width: 90%;
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: column;
 `;
 
-const FriendsWrapper = styled.div``;
+const FriendsWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+`;
+const LoadingDiv = styled.div`
+  margin-top: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const NoFriendDiv = styled.div`
+  margin: 5vh auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const FriendLink = styled(NavLink)`
+  width: 100px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+  text-decoration: none;
+  color: black;
+`;
+
+const DogPic = styled.img`
+  width: 300px;
+`;
 export default Friends;

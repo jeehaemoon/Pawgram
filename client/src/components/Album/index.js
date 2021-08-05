@@ -17,9 +17,8 @@ const Album = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.album);
+        setUser(data);
         if (data.album.length !== 0) {
-          setUser(data);
           setPictures(data.album);
           setAlbumStatus("idle");
         } else if (data.album.length === 0) {
@@ -38,12 +37,12 @@ const Album = () => {
           <Loading />
         </LoadingDiv>
       ) : albumStatus === "empty" ? (
-        <NoPictures>
+        <Wrapper>
           <Button onClick={() => history.push("/add-picture")}>
             Add Picture
           </Button>
-          No pictures
-        </NoPictures>
+          <ArtPic alt="art" src="/assets/art1.png" />
+        </Wrapper>
       ) : albumStatus === "idle" ? (
         <Wrapper>
           <Button onClick={() => history.push("/add-picture")}>
@@ -65,8 +64,11 @@ const Album = () => {
 };
 
 const Container = styled.div`
-  height: 80vh;
-  text-align: left;
+  margin: 15vh 0px;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const LoadingDiv = styled.div`
@@ -77,16 +79,11 @@ const LoadingDiv = styled.div`
   margin-top: 20vh;
 `;
 
-const NoPictures = styled.div`
-  margin: 15vh 0px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-size: larger;
-`;
 const Wrapper = styled.div`
-  margin: 15vh 0px;
+  max-width: 100vh;
+  height: fit-content;
+  width: 90%;
+  padding: 20px 30px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -96,12 +93,13 @@ const PictureList = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  margin-top: 20px;
-  width: 1000px;
+  justify-content: space-around;
+  margin-top: 10vh;
 `;
 
 const Button = styled.button`
+  width: 30%;
+  margin: 0px auto;
   font-size: large;
   font-weight: bold;
   background-color: white;
@@ -124,7 +122,6 @@ const Picture = styled(NavLink)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 10vh;
   margin-right: 20px;
   border-radius: 20px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
@@ -134,5 +131,10 @@ const Picture = styled(NavLink)`
 
 const Img = styled.img`
   width: 400px;
+`;
+
+const ArtPic = styled.img`
+  width: 60%;
+  margin-top: 50px;
 `;
 export default Album;

@@ -43,7 +43,7 @@ const Friend = () => {
       .catch((err) => {
         console.error(err);
       });
-  }, [token]);
+  }, [token, friendStatus]);
 
   // set tab
   const showPets = () => {
@@ -53,8 +53,41 @@ const Friend = () => {
     setTabType("album");
   };
 
+  //function to add friend
+  const addFriend = (username, id) => {
+    fetch("/friends/add", {
+      method: "POST",
+      headers: { "auth-token": token, "Content-Type": "application/json" },
+      body: JSON.stringify({ _id: id, username: username }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setFriendStatus("added");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  //function to delete friend
+  const deleteFriend = (id) => {
+    fetch("/friends/delete", {
+      method: "PUT",
+      headers: { "auth-token": token, "Content-Type": "application/json" },
+      body: JSON.stringify({ _id: id }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setFriendStatus("deleted");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   return (
-    <div>
+    <Container>
       {userStatus === "loading" || friendStatus === "loading" ? (
         <Loading />
       ) : (
@@ -63,7 +96,11 @@ const Friend = () => {
             <h1>@{friendInfo.username}</h1>
             {friendInfo.friends.length === 0 ||
             friendInfo.friends.find((friend) => friend._id !== user._id) ? (
-              <FriendButton>Add Friend</FriendButton>
+              <FriendButton
+                onClick={() => addFriend(friendInfo.username, friendInfo._id)}
+              >
+                Add Friend
+              </FriendButton>
             ) : (
               <FriendButton disabled>Friends</FriendButton>
             )}
@@ -102,18 +139,34 @@ const Friend = () => {
           ) : tabType === "album" && friendInfo.album.length === 0 ? (
             <div>No Pictures</div>
           ) : null}
+
+          {friendInfo.friends.length !== 0 ||
+          friendInfo.friends.find((friend) => friend._id === user._id) ? (
+            <RemoveFriendButton onClick={() => deleteFriend(friendInfo._id)}>
+              Remove Friend
+            </RemoveFriendButton>
+          ) : null}
         </Wrapper>
       )}
-    </div>
+    </Container>
   );
 };
 
+const Container = styled.div`
+  margin: 15vh 0px;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const Wrapper = styled.div`
-  margin: 15vh auto;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
   max-width: 100vh;
   width: 90%;
   padding: 20px 30px;
+  display: flex;
+  flex-direction: column;
 `;
 const Button = styled.button`
   width: 50%;
@@ -205,9 +258,36 @@ const FriendButton = styled.button`
   width: fit-content;
   padding: 10px 20px;
   border-radius: 20px;
+  :active {
+    -webkit-box-shadow: inset 0px 0px 5px #e5e5e5;
+    -moz-box-shadow: inset 0px 0px 5px #e5e5e5;
+    box-shadow: inset 0px 0px 5px #e5e5e5;
+    outline: none;
+  }
 
   :disabled {
     opacity: 0.7;
+  }
+`;
+
+const RemoveFriendButton = styled.button`
+  width: 20%;
+  z-index: 5;
+  margin: 0px auto;
+  margin-top: 20px;
+  background-color: white;
+  color: #e93737;
+  font-weight: bold;
+  padding: 5px;
+  font-size: small;
+  box-shadow: 3px -3px #e93737, 2px -2px #e93737, 1px -1px #e93737;
+  border-radius: 25px;
+  border: 1px solid #e93737;
+  :active {
+    -webkit-box-shadow: inset 0px 0px 5px #e93737;
+    -moz-box-shadow: inset 0px 0px 5px #e93737;
+    box-shadow: inset 0px 0px 5px #e93737;
+    outline: none;
   }
 `;
 export default Friend;

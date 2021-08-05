@@ -66,7 +66,7 @@ const SearchBar = () => {
           <Wrapper>
             {suggestionsMatch.map((suggestion, index) => {
               const item = suggestion.username;
-              const cutOff = item.indexOf(searchValue) + searchValue.length + 1;
+              const cutOff = item.indexOf(searchValue) + searchValue.length;
               const firstHalf = item.slice(0, cutOff);
               const secondHalf = item.slice(cutOff);
 
@@ -99,6 +99,12 @@ const Input = styled.input`
   &:focus {
     outline: none;
   }
+  font-size: large;
+  font-weight: bold;
+  background-color: white;
+  z-index: 5;
+  box-shadow: 3px -3px black, 2px -2px black, 1px -1px black;
+  border: 1px solid black;
 `;
 
 const Ul = styled.ul`
@@ -116,7 +122,8 @@ const Li = styled.li`
   padding: 2.5px 5px;
   border: 1px solid black;
   &:hover {
-    background: #e5e5e5;
+    background: #56acf5;
+    color: white;
   }
 `;
 
