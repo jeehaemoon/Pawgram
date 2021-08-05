@@ -13,6 +13,7 @@ import PictureForm from "./Album/PictureForm";
 import Picture from "./Album/Picture";
 import Friends from "../components/Friends";
 import Friend from "./Friends/Friend";
+import Footer from "./Footer";
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
           <Friend />
         </Route>
       </Switch>
+      <Footer />
     </Router>
   );
 }

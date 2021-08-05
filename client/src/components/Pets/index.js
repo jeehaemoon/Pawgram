@@ -91,26 +91,32 @@ const slideInAnimation = keyframes`
 `;
 
 const Container = styled.div`
-  height: 80vh;
-  text-align: left;
+  margin: 15vh 0px;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const NoPet = styled.div`
-  margin: 15vh 0px;
+  max-width: 100vh;
+  height: fit-content;
+  width: 90%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-weight: bold;
   font-size: larger;
 `;
 
 const Wrapper = styled.div`
-  margin: 15vh 0px;
-  width: 100%;
+  max-width: 100vh;
+  height: fit-content;
+  width: 90%;
+  padding: 20px 30px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 `;
 
 const PetList = styled.div`
@@ -118,8 +124,7 @@ const PetList = styled.div`
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-around;
-  margin-top: 20px;
-  width: 1000px;
+  margin-top: 10px;
 `;
 
 const Cat1 = styled.img`
@@ -138,7 +143,7 @@ const Yarn = styled.img`
 `;
 
 const Pet = styled(NavLink)`
-  width: 25%;
+  width: 35%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -152,6 +157,8 @@ const Pet = styled(NavLink)`
 `;
 
 const Button = styled.button`
+  width: 20%;
+  margin: 0px auto;
   font-size: large;
   font-weight: bold;
   background-color: white;
@@ -169,7 +176,7 @@ const Button = styled.button`
 `;
 
 const ImageDiv = styled.div`
-  width: fit-content;
+  width: 80%;
   background-color: #fdfbc6;
   border-radius: 20px;
   height: 200px;
@@ -179,7 +186,7 @@ const ImageDiv = styled.div`
   transform: translate(0, -20%);
 `;
 const Img = styled.img`
-  width: 200px;
+  width: 100%;
 `;
 
 const Name = styled.div`
@@ -204,7 +211,6 @@ const LoadingDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50vh;
   margin-top: 20vh;
 `;
 export default Pets;
