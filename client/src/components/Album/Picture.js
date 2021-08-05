@@ -155,9 +155,11 @@ const Picture = () => {
               Comment
             </CommentButton>
           </InputField>
-          <DeleteButton onClick={() => deletePicture()}>
-            Delete Picture
-          </DeleteButton>
+          {pictureData.owner === user._id ? (
+            <DeleteButton onClick={() => deletePicture()}>
+              Delete Picture
+            </DeleteButton>
+          ) : null}
         </Wrapper>
       )}
     </Container>

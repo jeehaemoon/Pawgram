@@ -9,7 +9,7 @@ import Input from "../Input";
 import Loading from "../Loading";
 
 const PetInfo = () => {
-  const { token, setUser } = useContext(UserContext);
+  const { token, setUser, user } = useContext(UserContext);
   const [breedInfo, setBreedInfo] = useState(undefined);
   const [breedStatus, setBreedStatus] = useState("loading");
   const [tabType, setTabType] = React.useState("breedinfo");
@@ -19,7 +19,6 @@ const PetInfo = () => {
   const { _id } = useParams();
   const history = useHistory();
 
-  console.log(breedInfo);
   const handleChange = (val, item) => {
     setFormData({ ...formData, [item]: val });
   };
@@ -96,7 +95,6 @@ const PetInfo = () => {
     }
   }, [breedInfo]);
 
-  console.log(fact);
   const showBreed = () => {
     setTabType("breedinfo");
   };
@@ -154,62 +152,89 @@ const PetInfo = () => {
         <Wrapper>
           <PetDiv>
             <Img alt={breedInfo.name} src={breedInfo.src} />
-            <Info>
-              <div>
-                <span>Name: </span>
-                <Input
-                  type="text"
-                  name="name"
-                  placeholder={formData.name}
-                  handleChange={handleChange}
-                  required
-                />
-              </div>
-              <div>
-                <span>Type: </span>
-                {breedInfo.type}{" "}
-              </div>
-              <div>
-                <span>Age: </span>
-                <Age
-                  type="number"
-                  name="age"
-                  placeholder="Age"
-                  onChange={(ev) => handleChange(ev.target.value, "age")}
-                  value={formData.age}
-                  min="0"
-                  max="30"
-                  required
-                />
-                year(s) Old
-              </div>
-              <div>
-                <span>Gender: </span>
-                <input
-                  type="radio"
-                  id="female"
-                  name="gender"
-                  value="female"
-                  checked={formData.gender === "female"}
-                  onChange={(ev) => handleChange(ev.target.value, "gender")}
-                />
-                <label htmlFor="cat">Female</label>
-                <input
-                  type="radio"
-                  id="male"
-                  name="gender"
-                  value="male"
-                  checked={formData.gender === "male"}
-                  onChange={(ev) => handleChange(ev.target.value, "gender")}
-                />
-                <label htmlFor="dog">Male</label>
-              </div>
-              <div>
-                <span>Breed: </span>
-                {breedInfo.breed}
-              </div>
-              <EditButton onClick={() => handleEdit()}>Edit Info</EditButton>
-            </Info>
+
+            {breedInfo.owner === user.username ? (
+              <Info>
+                <div>
+                  <span>Name: </span>
+                  <Input
+                    type="text"
+                    name="name"
+                    placeholder={formData.name}
+                    handleChange={handleChange}
+                    required
+                  />
+                </div>
+                <div>
+                  <span>Type: </span>
+                  {breedInfo.type}{" "}
+                </div>
+                <div>
+                  <span>Age: </span>
+                  <Age
+                    type="number"
+                    name="age"
+                    placeholder="Age"
+                    onChange={(ev) => handleChange(ev.target.value, "age")}
+                    value={formData.age}
+                    min="0"
+                    max="30"
+                    required
+                  />
+                  year(s) Old
+                </div>
+                <div>
+                  <span>Gender: </span>
+                  <input
+                    type="radio"
+                    id="female"
+                    name="gender"
+                    value="female"
+                    checked={formData.gender === "female"}
+                    onChange={(ev) => handleChange(ev.target.value, "gender")}
+                  />
+                  <label htmlFor="cat">Female</label>
+                  <input
+                    type="radio"
+                    id="male"
+                    name="gender"
+                    value="male"
+                    checked={formData.gender === "male"}
+                    onChange={(ev) => handleChange(ev.target.value, "gender")}
+                  />
+                  <label htmlFor="dog">Male</label>
+                </div>
+                <div>
+                  <span>Breed: </span>
+                  {breedInfo.breed}
+                </div>
+                <EditButton onClick={() => handleEdit()}>Edit Info</EditButton>
+              </Info>
+            ) : (
+              <Info>
+                <div>
+                  <span>Name: </span>
+                  {breedInfo.name}
+                </div>
+                <div>
+                  <span>Type: </span>
+                  {breedInfo.type}
+                </div>
+                <div>
+                  <span>Age: </span>
+                  {breedInfo.age}
+                  year(s) Old
+                </div>
+                <div>
+                  <span>Gender: </span>
+                  {breedInfo.gender}
+                </div>
+                <div>
+                  <span>Breed: </span>
+                  {breedInfo.breed}
+                </div>
+              </Info>
+            )}
           </PetDiv>
           <div>
             <Button onClick={showBreed}>Breed Info</Button>
@@ -260,7 +285,11 @@ const PetInfo = () => {
           ) : tabType === "random" && factStatus === "loading" ? (
             <div>Loading...</div>
           ) : null}
-          <DeleteButton onClick={() => handleDelete()}>Delete Pet</DeleteButton>
+          {breedInfo.owner === user.username ? (
+            <DeleteButton onClick={() => handleDelete()}>
+              Remove Pet
+            </DeleteButton>
+          ) : null}
         </Wrapper>
       )}
     </Container>

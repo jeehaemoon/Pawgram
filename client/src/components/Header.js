@@ -14,7 +14,6 @@ const Header = () => {
           <p> My Pet App</p>
         </Logo>
       </NavLinkItem>
-
       {user !== undefined ? (
         <Wrapper>
           <NavLinkItem exact to="/pets" activeClassName="selected">
@@ -84,8 +83,8 @@ const Img = styled.img`
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: space-around;
-  width: 30%;
+  justify-content: space-between;
+  width: 25%;
   margin-right: 100px;
   font-weight: bolder;
 `;
