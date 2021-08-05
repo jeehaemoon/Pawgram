@@ -11,6 +11,8 @@ import PetInfo from "./Pets/PetInfo";
 import Album from "../components/Album";
 import PictureForm from "./Album/PictureForm";
 import Picture from "./Album/Picture";
+import Friends from "../components/Friends";
+import Friend from "./Friends/Friend";
 
 function App() {
   return (
@@ -44,6 +46,12 @@ function App() {
         </Route>
         <Route exact path="/pictures/:_id">
           <Picture />
+        </Route>
+        <Route exact path="/friends/">
+          <Friends />
+        </Route>
+        <Route exact path="/friends/:_id">
+          <Friend />
         </Route>
       </Switch>
     </Router>

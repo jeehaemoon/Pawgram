@@ -40,7 +40,7 @@ const {
   postComment,
   deleteComment,
 } = require("./handlers/album");
-const { getProfile } = require("./handlers/profile");
+const { getProfile, getUsers, getUser } = require("./handlers/profile");
 const { verifyToken } = require("./verifyToken");
 
 express()
@@ -66,6 +66,8 @@ express()
   .use(verifyToken)
 
   .get("/profile", getProfile)
+  .get("/users", getUsers)
+  .get("/users/:_id", getUser)
 
   //pet endpoints
   .get("/dogbreeds", getDogBreeds)

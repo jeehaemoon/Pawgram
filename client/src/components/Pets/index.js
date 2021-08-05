@@ -27,36 +27,8 @@ const Pets = () => {
       });
   }, [token]);
 
-  console.log(token);
-
-  // const submitImage = () => {
-  //   console.log(file);
-  //   const formData = new FormData();
-  //   formData.append("productImage", file);
-  //   fetch("/picture", {
-  //     method: "POST",
-  //     headers: { "auth-token": token },
-  //     body: formData,
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //     });
-
-  //   history.push("/");
-  // };
   return (
     <Container>
-      {/* <h1>Profile</h1>
-      <form onSubmit={submitImage}>
-        <input
-          type="file"
-          onChange={(ev) => {
-            setFile(ev.target.files[0]);
-          }}
-        ></input>
-        <button type="submit">Submit</button>
-      </form> */}
       {petsStatus === "loading" ? (
         <LoadingDiv>
           <Loading />
@@ -134,6 +106,7 @@ const NoPet = styled.div`
 
 const Wrapper = styled.div`
   margin: 15vh 0px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

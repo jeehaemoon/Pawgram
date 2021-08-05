@@ -127,6 +127,7 @@ const postPet = async (req, res) => {
         info,
         breed,
         src: "/uploads/" + req.file.filename,
+        owner: req.user.user.username,
       });
 
       res.status(200).json({
@@ -148,6 +149,7 @@ const postPet = async (req, res) => {
         info,
         breed,
         src: "/uploads/" + req.file.filename,
+        owner: req.user.user.username,
       });
 
       res.status(200).json({
