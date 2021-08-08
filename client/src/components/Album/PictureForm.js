@@ -118,40 +118,31 @@ const PictureForm = () => {
 
       <Dog1 alt="dog" src="/assets/dog1.png" />
       <Cat1 alt="cat" src="/assets/cat2.png" />
-      <div
-        style={{
-          position: "absolute",
-          left: "300px",
-          top: "0px",
-          borderRadius: "50%",
-          overflow: "hidden",
-          display: "block",
-          pointerEvents: "none",
-          zIndex: -1,
-        }}
-      >
+      <SVGDIV>
         <SVG3 style={{ display: "block" }} />
-      </div>
+      </SVGDIV>
     </Container>
   );
 };
 
 const Container = styled.div`
-  height: 80vh;
-  text-align: left;
+  margin: 15vh 0px;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const LoadingDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 60vh;
-  margin-top: 20vh;
+  margin-top: 30vh;
 `;
 const PicForm = styled.form`
   padding: 40px;
   width: fit-content;
-  margin: 20vh auto;
+  margin: 5vh auto;
   z-index: 5;
   background-color: white;
   display: flex;
@@ -200,13 +191,36 @@ const Text = styled.textarea`
 const Dog1 = styled.img`
   position: absolute;
   bottom: 0px;
-  right: 350px;
+  right: 20%;
   width: 300px;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
 `;
 const Cat1 = styled.img`
   position: absolute;
   bottom: 0px;
-  left: 350px;
+  left: 20%;
   width: 300px;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
+`;
+
+const SVGDIV = styled.div`
+  position: absolute;
+  left: 20%;
+  top: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  display: block;
+  pointer-events: none;
+  z-index: -1;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
 `;
 export default PictureForm;

@@ -266,10 +266,10 @@ const PetInfo = () => {
                 </div>
               )}
               <div>
-                <span>Weight:</span> {breedInfo.info[0].weight.metric}kg{" "}
+                <span>Weight:</span> {breedInfo.info[0].weight.metric} kg
               </div>
               <div>
-                <span>Lifespan:</span> {breedInfo.info[0].life_span}
+                <span>Lifespan:</span> {breedInfo.info[0].life_span} Years
               </div>
               <div>
                 <span>Temperament:</span> {breedInfo.info[0].temperament}
@@ -298,17 +298,21 @@ const PetInfo = () => {
 };
 
 const Container = styled.div`
-  min-height: 100vh;
-  text-align: left;
+  margin: 15vh 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Wrapper = styled.div`
-  margin: 15vh auto;
+  margin: 0vh auto;
+  max-width: 100vh;
+  height: fit-content;
+  width: fit-content;
+  padding: 20px 30px;
   display: flex;
   flex-direction: column;
-  width: 600px;
-  padding: 20px;
-  height: fit-content;
   z-index: 5;
   background-color: white;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
@@ -362,7 +366,7 @@ const Info = styled.div`
   display: flex;
   flex-direction: column;
   align-items: left;
-  justify-content: flex-start;
+  justify-content: center;
 `;
 
 const BreedImg = styled.img`
@@ -399,7 +403,7 @@ const DeleteButton = styled.button`
 
 const EditButton = styled.button`
   width: 40%;
-  margin: 10px auto;
+  margin-top: 20px;
   z-index: 5;
   background-color: white;
   color: black;
@@ -431,6 +435,6 @@ const LoadingDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50vh;
+  height: 80vh;
 `;
 export default PetInfo;

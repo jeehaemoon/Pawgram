@@ -89,7 +89,9 @@ const Friend = () => {
   return (
     <Container>
       {userStatus === "loading" || friendStatus === "loading" ? (
-        <Loading />
+        <LoadingDiv>
+          <Loading />
+        </LoadingDiv>
       ) : (
         <Wrapper>
           <Info>
@@ -159,7 +161,12 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-
+const LoadingDiv = styled.div`
+  margin-top: 20vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 const Wrapper = styled.div`
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
   max-width: 100vh;

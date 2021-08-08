@@ -154,6 +154,10 @@ const Pet = styled(NavLink)`
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
   text-decoration: none;
   color: black;
+
+  @media (max-width: 500px) {
+    width: 80%;
+  }
 `;
 
 const Button = styled.button`
@@ -173,6 +177,10 @@ const Button = styled.button`
     box-shadow: inset 0px 0px 5px #c1c1c1;
     outline: none;
   }
+
+  @media (max-width: 685px) {
+    width: fit-content;
+  }
 `;
 
 const ImageDiv = styled.div`
@@ -186,7 +194,7 @@ const ImageDiv = styled.div`
   transform: translate(0, -20%);
 `;
 const Img = styled.img`
-  width: 100%;
+  width: 80%;
 `;
 
 const Name = styled.div`

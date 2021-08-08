@@ -144,35 +144,13 @@ const SignUp = () => {
         ) : null}
       </Form>
 
-      <div
-        style={{
-          position: "absolute",
-          left: "0px",
-          top: "0px",
-          borderRadius: "50%",
-          overflow: "hidden",
-          display: "block",
-          pointerEvents: "none",
-          zIndex: -1,
-        }}
-      >
+      <SVG3Div>
         <SVG3 style={{ display: "block" }} />
-      </div>
+      </SVG3Div>
 
-      <div
-        style={{
-          position: "absolute",
-          right: "0px",
-          bottom: "0px",
-          borderRadius: "50%",
-          overflow: "hidden",
-          display: "block",
-          pointerEvents: "none",
-          zIndex: -1,
-        }}
-      >
+      <SVG4Div>
         <SVG4 style={{ display: "block" }} />
-      </div>
+      </SVG4Div>
     </Container>
   );
 };
@@ -251,5 +229,34 @@ const Warning = styled.div`
   margin-top: 30px;
   color: #fc7750;
   font-weight: bold;
+`;
+
+const SVG3Div = styled.div`
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: block;
+  pointer-events: none;
+  z-index: -1;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const SVG4Div = styled.div`
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: block;
+  pointer-events: none;
+  z-index: -1;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 export default SignUp;

@@ -72,11 +72,10 @@ const Container = styled.div`
 `;
 
 const LoadingDiv = styled.div`
+  margin-top: 20vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50vh;
-  margin-top: 20vh;
 `;
 
 const Wrapper = styled.div`
@@ -98,7 +97,7 @@ const PictureList = styled.div`
 `;
 
 const Button = styled.button`
-  width: 30%;
+  width: fit-content;
   margin: 0px auto;
   font-size: large;
   font-weight: bold;

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { UserContext } from "./UserContext";
 import { useHistory } from "react-router-dom";
 import { ReactComponent as SVG1 } from "../svg/vector-1-1.svg";
@@ -7,47 +7,31 @@ import { ReactComponent as SVG2 } from "../svg/vector-1-2.svg";
 import styled from "styled-components";
 
 const Homepage = () => {
-  const { token } = useContext(UserContext);
+  const { token, setUser } = useContext(UserContext);
   const history = useHistory();
 
-  // useEffect(() => {
-  //   fetch("/picture", {
-  //     method: "GET",
-  //     headers: { "auth-token": token },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //       setPicture(data.data[0].album);
-  //       setPictureStatus("idle");
-  //     });
-  // }, []);
-  // console.log(picture);
+  useEffect(() => {
+    if (token !== null) {
+      fetch("/profile", {
+        method: "GET",
+        headers: { "auth-token": token },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setUser(data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }, [token]);
+
   return (
-    // <div style={{ marginTop: "15vh" }}>
-    //   {token === null ? (
-    //     <button
-    //       onClick={() => {
-    //         handleLogIn();
-    //       }}
-    //     >
-    //       SignIn
-    //     </button>
-    //   ) : (
-    //     <button onClick={() => handleLogOut()}>Signout</button>
-    //   )}
-    //   {pictureStatus === "loading" ? (
-    //     <div></div>
-    //   ) : (
-    //     picture.map((item, index) => {
-    //       return <img alt="pic" src={item.src} />;
-    //     })
-    //   )}
-    // </div>
     <Container>
       <Wrapper>
-        <Title>My Pet App</Title>
-        <Info>Something something something</Info>
+        <Title>Pawgram</Title>
+        <Info>A social media platform for your pet.</Info>
         {token !== null ? (
           <Button
             onClick={() => {
@@ -66,54 +50,38 @@ const Homepage = () => {
           </Button>
         )}
       </Wrapper>
-      <div
-        style={{
-          position: "absolute",
-          right: "0px",
-          bottom: "0px",
-          borderRadius: "50%",
-          overflow: "hidden",
-          display: "block",
-          pointerEvents: "none",
-          zIndex: -1,
-        }}
-      >
-        <SVG1 style={{ display: "block" }} />
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          left: "0px",
-          bottom: "0px",
-          borderRadius: "50%",
-          overflow: "hidden",
-          display: "block",
-          pointerEvents: "none",
-          zIndex: -1,
-        }}
-      >
-        <SVG2 style={{ display: "block" }} />
-      </div>
+      <IllustrationDiv>
+        <SVG1Div>
+          <SVG1 style={{ display: "block" }} />
+        </SVG1Div>
+        <SVG2Div>
+          <SVG2 style={{ display: "block" }} />
+        </SVG2Div>
 
-      <Cat1 alt="cat1" src="/assets/cat1.png" />
-      <Cat2 alt="cat2" src="/assets/cat2.png" />
-      <Plant1 alt="plant1" src="/assets/plant1.png" />
-      <Plant2 alt="plant2" src="/assets/plant2.png" />
-      <Dog1 alt="dog1" src="/assets/dog1.png" />
-      <Plant3 alt="plant3" src="/assets/plant3.png" />
+        <Cat1 className="desktop2" alt="cat1" src="/assets/cat1.png" />
+        <Cat2 className="desktop3" alt="cat2" src="/assets/cat2.png" />
+        <Plant1 className="desktop" alt="plant1" src="/assets/plant1.png" />
+        <Plant2 className="desktop2" alt="plant2" src="/assets/plant2.png" />
+        <Dog1 alt="dog1" src="/assets/dog1.png" />
+        <Plant3 className="desktop3" alt="plant3" src="/assets/plant3.png" />
+      </IllustrationDiv>
     </Container>
   );
 };
 
 const Container = styled.div`
-  height: 80vh;
+  margin: 15vh 0px;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
 `;
 
 const Wrapper = styled.div`
   padding: 20px;
   width: fit-content;
-  margin: 20vh auto;
+  margin: 5vh auto;
   z-index: 5;
 `;
 
@@ -148,7 +116,7 @@ const Cat1 = styled.img`
   z-index: 3;
   position: absolute;
   bottom: 0;
-  left: 100px;
+  left: 10%;
 `;
 
 const Cat2 = styled.img`
@@ -156,7 +124,11 @@ const Cat2 = styled.img`
   z-index: 3;
   position: absolute;
   bottom: 0px;
-  left: 400px;
+  left: 30%;
+
+  @media (max-width: 930px) {
+    left: 10%;
+  }
 `;
 
 const Plant1 = styled.img`
@@ -164,7 +136,7 @@ const Plant1 = styled.img`
   z-index: 3;
   position: absolute;
   bottom: 0px;
-  left: 650px;
+  right: 45%;
 `;
 
 const Plant2 = styled.img`
@@ -172,7 +144,7 @@ const Plant2 = styled.img`
   z-index: 3;
   position: absolute;
   bottom: 0px;
-  left: 700px;
+  right: 35%;
   z-index: 1;
 `;
 const Dog1 = styled.img`
@@ -180,7 +152,7 @@ const Dog1 = styled.img`
   z-index: 3;
   position: absolute;
   bottom: 0px;
-  left: 850px;
+  right: 10%;
 `;
 
 const Plant3 = styled.img`
@@ -190,5 +162,64 @@ const Plant3 = styled.img`
   bottom: 0px;
   right: 0px;
   z-index: 1;
+`;
+
+const IllustrationDiv = styled.div`
+  width: fit-content;
+
+  @media (max-width: 768px) and (max-width: 1200px) {
+    .desktop {
+      display: none;
+    }
+  }
+  @media (min-width: 600px) and (max-width: 930px) {
+    .desktop {
+      display: none;
+    }
+    .desktop2 {
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .desktop {
+      display: none;
+    }
+    .desktop2 {
+      display: none;
+    }
+    .desktop3 {
+      display: none;
+    }
+  }
+`;
+
+const SVG1Div = styled.div`
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: block;
+  pointer-events: none;
+  z-index: -1;
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const SVG2Div = styled.div`
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: block;
+  pointer-events: none;
+  z-index: -1;
+
+  @media (max-width: 930px) {
+    display: none;
+  }
 `;
 export default Homepage;
