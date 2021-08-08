@@ -33,7 +33,7 @@ const postPicture = async (req, res) => {
         { $push: { album: { _id: _id, src: req.file.path } } }
       );
 
-    await db.collection("pictures").insertOne({
+    const picture = await db.collection("pictures").insertOne({
       _id: _id,
       date: date,
       time: time,
@@ -41,7 +41,11 @@ const postPicture = async (req, res) => {
       note: note,
       owner: req.user.user._id,
       comments: [],
+      likes: [],
     });
+
+    assert.equal(true, picture.acknowledged);
+
     res.status(200).json({ status: 200, message: "picture added" });
   } catch (err) {
     console.log("Error", err);
@@ -207,6 +211,55 @@ const deleteComment = async (req, res) => {
   console.log("disconnected!");
 };
 
+const postLike = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const likeId = uuidv4();
+  const { _id } = req.params;
+
+  try {
+    await client.connect();
+    const db = client.db("data");
+    console.log("connected");
+
+    // find if liked
+    const like = await db
+      .collection("pictures")
+      .find({ $and: [{ _id: _id }, { "likes.author": req.user.user._id }] })
+      .toArray();
+
+    if (like.length === 0) {
+      await db.collection("pictures").findOneAndUpdate(
+        { _id: _id },
+        {
+          $push: {
+            likes: {
+              _id: likeId,
+              author: req.user.user._id,
+              username: req.user.user.username,
+            },
+          },
+        }
+      );
+
+      res.status(200).json({ status: 200, message: "liked" });
+    } else {
+      await db
+        .collection("pictures")
+        .updateOne(
+          { _id: _id },
+          { $pull: { likes: { author: req.user.user._id } } }
+        );
+
+      res.status(200).json({ status: 200, message: "unliked" });
+    }
+  } catch (err) {
+    console.log("Error", err);
+    res.status(500).json({ status: 500, data: req.body, message: err.message });
+  }
+  client.close();
+  console.log("disconnected!");
+};
+
 module.exports = {
   postPicture,
   getPictures,
@@ -214,4 +267,5 @@ module.exports = {
   deletePost,
   postComment,
   deleteComment,
+  postLike,
 };

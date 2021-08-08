@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { UserContext } from "../UserContext";
 import { useParams } from "react-router";
-import { useHistory, NavLink } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { FiHeart } from "react-icons/fi";
+
 import Loading from "../Loading";
 
 const initialState = {
@@ -15,6 +17,10 @@ const Picture = () => {
   const [formData, setFormData] = useState(initialState);
   const [comments, setComments] = useState(undefined);
   const [userStatus, setUserStatus] = useState("loading");
+  const [isLiked, setIsLiked] = useState(undefined);
+  const [likeNum, setLikeNum] = useState(undefined);
+  const [fetchLikeStatus, setFetchLikeStatus] = useState(undefined);
+
   const { _id } = useParams();
   const history = useHistory();
 
@@ -46,11 +52,24 @@ const Picture = () => {
         setPictureData(data.data);
         setPictureStatus("idle");
         setComments("idle");
+        if (data.data !== undefined && user !== undefined) {
+          const findLike = data.data.likes.filter(
+            (like) => like.author === user._id
+          );
+          console.log(findLike);
+          console.log(data.data.likes.length);
+          setLikeNum(data.data.likes.length);
+          if (findLike.length !== 0) {
+            setIsLiked(true);
+          } else {
+            setIsLiked(false);
+          }
+        }
       })
       .catch((err) => {
         console.error(err);
       });
-  }, [comments]);
+  }, [comments, token, fetchLikeStatus]);
 
   //function that handles Comments
 
@@ -105,6 +124,21 @@ const Picture = () => {
         console.error(err);
       });
   };
+
+  //fetch like function
+  const fetchLike = () => {
+    fetch(`/pictures/${_id}/like`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", "auth-token": token },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setFetchLikeStatus(data.message);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
   return (
     <Container>
       {pictureStatus === "loading" || userStatus === "loading" ? (
@@ -121,7 +155,31 @@ const Picture = () => {
               <div>{pictureData.date}</div>
               <div>{pictureData.time}</div>
             </Date>
-            <div>{pictureData.note}</div>
+            <Note>
+              <div>{pictureData.note}</div>
+              <LikeContainer>
+                <LikeButton
+                  className="heart"
+                  onClick={() => {
+                    if (!isLiked) {
+                      setIsLiked(!isLiked);
+                    } else {
+                      setIsLiked(!isLiked);
+                    }
+
+                    fetchLike();
+                  }}
+                >
+                  <FiHeart
+                    style={isLiked ? { color: "rgb(224, 36, 94)" } : ""}
+                    fill={isLiked ? "rgb(224, 36, 94)" : "transparent"}
+                  />
+                </LikeButton>
+                {likeNum === "undefined" || likeNum === 0 ? null : (
+                  <div>{likeNum}</div>
+                )}
+              </LikeContainer>
+            </Note>
           </Info>
           {pictureData.comments.length === 0 ? null : (
             <div>
@@ -167,23 +225,27 @@ const Picture = () => {
 };
 
 const Container = styled.div`
-  min-height: 100vh;
-  text-align: left;
+  margin: 20vh 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
 `;
 const LoadingDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 60vh;
 `;
 
 const Wrapper = styled.div`
-  margin: 15vh auto;
+  margin: 0vh auto;
+  max-width: 100vh;
+  height: fit-content;
+  width: fit-content;
+  padding: 20px 30px;
   display: flex;
   flex-direction: column;
-  width: 600px;
-  padding: 20px;
-  height: fit-content;
   z-index: 5;
   background-color: white;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
@@ -199,14 +261,14 @@ const Info = styled.div`
 `;
 
 const DeleteButton = styled.button`
-  width: 30%;
+  width: fit-content;
   z-index: 5;
   margin: 0px auto;
   margin-top: 20px;
   background-color: white;
   color: #e93737;
   font-weight: bold;
-  padding: 5px;
+  padding: 5px 10px;
   font-size: 18px;
   box-shadow: 3px -3px #e93737, 2px -2px #e93737, 1px -1px #e93737;
   border-radius: 25px;
@@ -277,5 +339,27 @@ const CommentButton = styled.button`
 const Username = styled.div`
   color: gray;
   font-size: smaller;
+`;
+
+const Note = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const LikeButton = styled.button`
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  width: 30px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+`;
+
+const LikeContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 export default Picture;
