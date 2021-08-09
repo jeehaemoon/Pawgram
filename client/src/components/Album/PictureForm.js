@@ -42,24 +42,6 @@ const PictureForm = () => {
     setFormData({ ...formData, [item]: val });
   };
 
-  //function to submit image
-  //   const submitImage = () => {
-  //     console.log(file);
-  //     const formData = new FormData();
-  //     formData.append("productImage", file);
-  //     fetch("/picture", {
-  //       method: "POST",
-  //       headers: { "auth-token": token },
-  //       body: formData,
-  //     })
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         console.log(data);
-  //       });
-
-  //     history.push("/");
-  //   };
-
   const handleSubmit = (ev) => {
     ev.preventDefault();
     console.log(formData);
@@ -84,15 +66,6 @@ const PictureForm = () => {
   };
   return (
     <Container>
-      {/* <form onSubmit={submitImage} style={{ marginTop: "20vh" }}>
-        <input
-          type="file"
-          onChange={(ev) => {
-            setFile(ev.target.files[0]);
-          }}
-        ></input>
-        <button type="submit">Submit</button>
-      </form> */}
       {albumStatus === "loading" ? (
         <LoadingDiv>
           <Loading />

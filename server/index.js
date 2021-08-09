@@ -31,7 +31,13 @@ const {
   editPetInfo,
   deletePet,
 } = require("./handlers/pet");
-const { getFriends, addFriend, deleteFriend } = require("./handlers/friends");
+const {
+  getFriends,
+  addFriend,
+  deleteFriend,
+  sendMessage,
+  replyMessage,
+} = require("./handlers/friends");
 const {
   postPicture,
   getPictures,
@@ -92,6 +98,10 @@ express()
   .post("/pictures/:_id/comment", postComment)
   .put("/pictures/:_id/delete-comment", deleteComment)
   .put("/pictures/:_id/like", postLike)
+
+  //message endpoints
+  .post("/messages-to/:_id", sendMessage)
+  .post("/messages-reply/:_id", replyMessage)
 
   .use("/facts", factRoute)
 

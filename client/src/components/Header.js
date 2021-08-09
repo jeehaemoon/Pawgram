@@ -54,6 +54,13 @@ const Header = () => {
                 >
                   Album
                 </NavLinkHamburger>
+                <NavLinkHamburger
+                  exact
+                  to="/messages"
+                  onClick={() => activateHamburger()}
+                >
+                  Inbox
+                </NavLinkHamburger>
                 <HamLogout
                   exact
                   to="/"
@@ -92,6 +99,14 @@ const Header = () => {
             activeClassName="selected"
           >
             Album
+          </NavLinkItem>
+          <NavLinkItem
+            className="desktop"
+            exact
+            to="/messages"
+            activeClassName="selected"
+          >
+            Inbox
           </NavLinkItem>
           <Name className="desktop">
             {user.username}
@@ -166,7 +181,7 @@ const translate = keyframes`
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 25%;
+  width: 30%;
   margin-right: 100px;
   font-weight: bolder;
   @media (max-width: 900px) {
@@ -175,7 +190,7 @@ const Wrapper = styled.div`
     width: fit-content;
   }
   @media (min-width: 900px) and (max-width: 1300px) {
-    width: 35%;
+    width: 45%;
     margin-right: 50px;
     margin-left: 50px;
   }
