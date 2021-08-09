@@ -75,9 +75,9 @@ const MessageForm = () => {
           <Loading />
         </LoadingDiv>
       ) : (
-        <div>
-          Play Date Invite{" "}
-          <form>
+        <Form>
+          <div>
+            <Title> Play Date Invite </Title>
             Would you like to go on a Play Date:
             <div>
               <input
@@ -91,11 +91,11 @@ const MessageForm = () => {
                 onChange={(ev) => handleChange(ev.target.value, "time")}
               />
             </div>
-            <button disabled={buttonState} onClick={handleSubmit}>
+            <Button disabled={buttonState} onClick={handleSubmit}>
               Send
-            </button>
-          </form>
-        </div>
+            </Button>
+          </div>
+        </Form>
       )}
     </Container>
   );
@@ -114,5 +114,70 @@ const LoadingDiv = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 30vh;
+`;
+
+const Form = styled.form`
+  padding: 40px;
+  width: fit-content;
+  margin: 5vh auto;
+  z-index: 5;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+  background-image: repeating-linear-gradient(
+    135deg,
+    #f29b91 0px,
+    #f09290 30px,
+    transparent 30px,
+    transparent 50px,
+    #83b3db 50px,
+    #84adcb 80px,
+    transparent 80px,
+    transparent 100px
+  );
+
+  div {
+    background: white;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 40px;
+  }
+
+  input {
+    margin: 10px 0px 20px 0px;
+  }
+`;
+
+const Title = styled.p`
+  font-size: 38px;
+  font-weight: bold;
+  margin-bottom: 20px;
+`;
+
+const Button = styled.button`
+  width: fit-content;
+  z-index: 5;
+  margin: 0px auto;
+  margin-top: 10px;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  padding: 5px 20px;
+  font-size: 18px;
+  box-shadow: 3px -3px black, 2px -2px black, 1px -1px black;
+  border-radius: 25px;
+  border: 1px solid black;
+  :active {
+    -webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
+    -moz-box-shadow: inset 0px 0px 5px #c1c1c1;
+    box-shadow: inset 0px 0px 5px #c1c1c1;
+    outline: none;
+  }
+  :disabled {
+    opacity: 0.5;
+  }
 `;
 export default MessageForm;

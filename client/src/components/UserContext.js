@@ -1,13 +1,10 @@
 import React, { useState, useEffect, createContext } from "react";
 
-import { useHistory } from "react-router-dom";
-
-const { v4: uuidv4 } = require("uuid");
-
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const userToken = localStorage.getItem("token");
+  const [newMessage, setNewMessage] = useState(false);
 
   const [token, setToken] = useState(userToken);
   const [user, setUser] = useState(undefined);
@@ -17,7 +14,9 @@ export const UserProvider = ({ children }) => {
   }, [token]);
 
   return (
-    <UserContext.Provider value={{ setToken, token, setUser, user }}>
+    <UserContext.Provider
+      value={{ setToken, token, setUser, user, newMessage, setNewMessage }}
+    >
       {children}
     </UserContext.Provider>
   );

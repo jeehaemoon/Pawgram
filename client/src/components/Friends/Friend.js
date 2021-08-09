@@ -101,11 +101,13 @@ const Friend = () => {
 
             {friendInfo.friends.length === 0 ||
             friendInfo.friends.find((friend) => friend._id !== user._id) ? (
-              <FriendButton
-                onClick={() => addFriend(friendInfo.username, friendInfo._id)}
-              >
-                Add Friend
-              </FriendButton>
+              <ButtonDiv>
+                <FriendButton
+                  onClick={() => addFriend(friendInfo.username, friendInfo._id)}
+                >
+                  Add Friend
+                </FriendButton>
+              </ButtonDiv>
             ) : (
               <ButtonDiv>
                 <FriendButton disabled>Friends</FriendButton>

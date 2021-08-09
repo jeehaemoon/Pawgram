@@ -1,13 +1,14 @@
 import React, { useEffect, useContext, useState } from "react";
-import { useParams } from "react-router";
 import styled from "styled-components";
 import { UserContext } from "../UserContext";
-import { useHistory } from "react-router-dom";
 import Loading from "../Loading";
+import PlayDate from "./PlayDate";
+import Message from "./Message";
 
 const Messages = () => {
-  const { token, setUser, user } = useContext(UserContext);
+  const { token, setUser, user, setNewMessage } = useContext(UserContext);
   const [userStatus, setUserStatus] = useState("loading");
+  const [messageState, setMessageState] = useState(undefined);
 
   useEffect(() => {
     fetch("/profile", {
@@ -18,11 +19,22 @@ const Messages = () => {
       .then((data) => {
         setUser(data);
         setUserStatus("idle");
+        if (data.messages.length !== 0) {
+          const filteredMessage = data.messages.filter((message) => {
+            return message.accepted === undefined;
+          });
+          console.log(filteredMessage);
+          if (filteredMessage.length !== 0) {
+            setNewMessage(true);
+          }
+        }
       })
       .catch((err) => {
         console.error(err);
       });
-  }, [token]);
+  }, [token, messageState]);
+
+  //function to reply to playdate
 
   const handleSubmitMessage = (
     messageId,
@@ -47,13 +59,13 @@ const Messages = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        if (data.status === 200) {
-        }
+        setMessageState(data.message);
       })
       .catch((err) => {
         console.error(err);
       });
   };
+
   return (
     <Container>
       {userStatus === "loading" ? (
@@ -61,139 +73,44 @@ const Messages = () => {
           <Loading />
         </LoadingDiv>
       ) : user.messages.length === 0 && user.playdate.length === 0 ? (
-        <div>
-          <div>No Play Date</div>
-          <div>No messages</div>
-        </div>
+        <Wrapper>
+          <Div>
+            <Title>Play Dates</Title>No Play Dates
+          </Div>
+          <Div>
+            <Title>Messages</Title>No messages
+          </Div>
+        </Wrapper>
       ) : user.playdate.length === 0 && user.messages.length !== 0 ? (
-        <div>
-          <div>No Play Dates</div>
-          <div>
-            {user.messages.map((message, index) => {
-              return (
-                <div key={index}>
-                  <div>Play Date from {message.username}</div>
-                  <div>
-                    Would you like to go on a Play Date: {message.date} at{" "}
-                    {message.time}?
-                  </div>
-                  {message.accepted !== undefined ? (
-                    <div>Date refused</div>
-                  ) : (
-                    <div>
-                      <button
-                        onClick={() =>
-                          handleSubmitMessage(
-                            message._id,
-                            message.username,
-                            message.author,
-                            message.date,
-                            message.time,
-                            true
-                          )
-                        }
-                      >
-                        Accept
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleSubmitMessage(
-                            message._id,
-                            message.username,
-                            message.author,
-                            message.date,
-                            message.time,
-                            false
-                          )
-                        }
-                      >
-                        Refuse
-                      </button>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        <Wrapper>
+          <Div>
+            <Title>Play Dates</Title>No Play Dates
+          </Div>
+          <Div>
+            <Title>Messages</Title>
+            <Message user={user} handleSubmitMessage={handleSubmitMessage} />
+          </Div>
+        </Wrapper>
       ) : user.playdate.length !== 0 && user.messages.length === 0 ? (
-        <div>
-          <div>
-            {user.playdate.map((date, index) => {
-              return (
-                <div key={index}>
-                  <div>
-                    Play Date with {date.friend} on {date.time} at {date.date}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          <div>No messages</div>
-        </div>
+        <Wrapper>
+          <Div>
+            <Title>Play Dates</Title>
+            <PlayDate user={user} />
+          </Div>
+          <Div>
+            <Title>Messages</Title>No messages
+          </Div>
+        </Wrapper>
       ) : (
-        <div>
-          <div>
-            {" "}
-            {user.playdate.map((date, index) => {
-              return (
-                <div key={index}>
-                  <div>
-                    Play Date with {date.friend} on {date.time} at {date.date}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          <div>
-            {" "}
-            {user.messages.map((message, index) => {
-              return (
-                <div key={index}>
-                  <div>Play Date from {message.username}</div>
-                  <div>
-                    Would you like to go on a Play Date: {message.date} at{" "}
-                    {message.time}?
-                  </div>
-                  {message.accepted !== undefined ? (
-                    <div>Date refused</div>
-                  ) : (
-                    <div>
-                      <button
-                        onClick={() =>
-                          handleSubmitMessage(
-                            message._id,
-                            message.username,
-                            message.author,
-                            message.date,
-                            message.time,
-                            true
-                          )
-                        }
-                      >
-                        Accept
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleSubmitMessage(
-                            message._id,
-                            message.username,
-                            message.author,
-                            message.date,
-                            message.time,
-                            false
-                          )
-                        }
-                      >
-                        Refuse
-                      </button>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        <Wrapper>
+          <Div>
+            <Title>Play Dates</Title> <PlayDate user={user} />
+          </Div>
+          <Div>
+            <Title>Messages</Title>{" "}
+            <Message user={user} handleSubmitMessage={handleSubmitMessage} />
+          </Div>
+        </Wrapper>
       )}
     </Container>
   );
@@ -213,4 +130,23 @@ const LoadingDiv = styled.div`
   align-items: center;
   margin-top: 30vh;
 `;
+
+const Wrapper = styled.div`
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+  max-width: 100vh;
+  width: 90%;
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Div = styled.div`
+  margin: 20px 0px;
+`;
+
+const Title = styled.h1`
+  border-bottom: 1px solid black;
+  margin-bottom: 10px;
+`;
+
 export default Messages;
