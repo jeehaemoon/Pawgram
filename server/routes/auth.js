@@ -25,6 +25,8 @@ const signUp = async (req, res) => {
   const petsArr = [];
   const friendsArr = [];
   const albumArr = [];
+  const messagesArr = [];
+  const playdateArr = [];
 
   let newAccount = {
     _id,
@@ -34,6 +36,8 @@ const signUp = async (req, res) => {
     pets: petsArr,
     friends: friendsArr,
     album: albumArr,
+    messages: messagesArr,
+    playdate: playdateArr,
   };
 
   try {

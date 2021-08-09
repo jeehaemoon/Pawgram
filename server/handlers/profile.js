@@ -34,6 +34,8 @@ const getProfile = async (req, res) => {
       pets: profile.pets,
       friends: profile.friends,
       album: profile.album,
+      messages: profile.messages,
+      playdate: profile.playdate,
     });
   } catch (err) {
     console.log(err);

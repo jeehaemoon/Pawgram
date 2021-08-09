@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router";
 import { UserContext } from "../UserContext";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Loading from "../Loading";
+import { FaRegPaperPlane } from "react-icons/fa";
 
 const Friend = () => {
   const { token, setUser, user } = useContext(UserContext);
@@ -12,6 +13,7 @@ const Friend = () => {
   const [friendStatus, setFriendStatus] = useState("loading");
   const [tabType, setTabType] = React.useState("pets");
   const { _id } = useParams();
+  const history = useHistory();
 
   useEffect(() => {
     fetch("/profile", {
@@ -96,6 +98,7 @@ const Friend = () => {
         <Wrapper>
           <Info>
             <h1>@{friendInfo.username}</h1>
+
             {friendInfo.friends.length === 0 ||
             friendInfo.friends.find((friend) => friend._id !== user._id) ? (
               <FriendButton
@@ -104,7 +107,13 @@ const Friend = () => {
                 Add Friend
               </FriendButton>
             ) : (
-              <FriendButton disabled>Friends</FriendButton>
+              <ButtonDiv>
+                <FriendButton disabled>Friends</FriendButton>
+                <FaRegPaperPlane
+                  style={{ cursor: "pointer" }}
+                  onClick={() => history.push(`/send-message/${_id}`)}
+                />
+              </ButtonDiv>
             )}
           </Info>
           <div>
@@ -265,6 +274,7 @@ const FriendButton = styled.button`
   width: fit-content;
   padding: 10px 20px;
   border-radius: 20px;
+  margin-right: 20px;
   :active {
     -webkit-box-shadow: inset 0px 0px 5px #e5e5e5;
     -moz-box-shadow: inset 0px 0px 5px #e5e5e5;
@@ -296,5 +306,11 @@ const RemoveFriendButton = styled.button`
     box-shadow: inset 0px 0px 5px #e93737;
     outline: none;
   }
+`;
+
+const ButtonDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 export default Friend;

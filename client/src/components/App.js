@@ -14,6 +14,8 @@ import Picture from "./Album/Picture";
 import Friends from "../components/Friends";
 import Friend from "./Friends/Friend";
 import Footer from "./Footer";
+import Messages from "../components/Messages";
+import MessageForm from "./Messages/MessageForm";
 
 function App() {
   return (
@@ -53,6 +55,12 @@ function App() {
         </Route>
         <Route exact path="/friends/:_id">
           <Friend />
+        </Route>
+        <Route exact path="/messages">
+          <Messages />
+        </Route>
+        <Route exact path="/send-message/:_id">
+          <MessageForm />
         </Route>
       </Switch>
       <Footer />
