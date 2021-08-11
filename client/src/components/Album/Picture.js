@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { UserContext } from "../UserContext";
 import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
-import { FiHeart } from "react-icons/fi";
+import { FaPaw } from "react-icons/fa";
 
 import Loading from "../Loading";
 
@@ -11,12 +11,12 @@ const initialState = {
   comment: "",
 };
 const Picture = () => {
-  const { token, setUser, user } = useContext(UserContext);
+  const { token, user, userStatus, setPicturePage } = useContext(UserContext);
   const [pictureData, setPictureData] = useState(undefined);
   const [pictureStatus, setPictureStatus] = useState("loading");
   const [formData, setFormData] = useState(initialState);
   const [comments, setComments] = useState(undefined);
-  const [userStatus, setUserStatus] = useState("loading");
+  // const [userStatus, setUserStatus] = useState("loading");
   const [isLiked, setIsLiked] = useState(undefined);
   const [likeNum, setLikeNum] = useState(undefined);
   const [fetchLikeStatus, setFetchLikeStatus] = useState(undefined);
@@ -27,20 +27,20 @@ const Picture = () => {
   const handleChange = (val, item) => {
     setFormData({ ...formData, [item]: val });
   };
-  useEffect(() => {
-    fetch("/profile", {
-      method: "GET",
-      headers: { "auth-token": token },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUser(data);
-        setUserStatus("idle");
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [token]);
+  // useEffect(() => {
+  //   fetch("/profile", {
+  //     method: "GET",
+  //     headers: { "auth-token": token },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setUser(data);
+  //       setUserStatus("idle");
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // }, [token]);
 
   useEffect(() => {
     fetch(`/pictures/${_id}`, {
@@ -117,7 +117,7 @@ const Picture = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        setPicturePage("deleted");
         history.push("/album");
       })
       .catch((err) => {
@@ -161,18 +161,14 @@ const Picture = () => {
                 <LikeButton
                   className="heart"
                   onClick={() => {
-                    if (!isLiked) {
-                      setIsLiked(!isLiked);
-                    } else {
-                      setIsLiked(!isLiked);
-                    }
-
+                    setIsLiked(!isLiked);
                     fetchLike();
                   }}
                 >
-                  <FiHeart
-                    style={isLiked ? { color: "rgb(224, 36, 94)" } : ""}
-                    fill={isLiked ? "rgb(224, 36, 94)" : "transparent"}
+                  <FaPaw
+                    size={20}
+                    style={isLiked ? { color: "#e93737" } : ""}
+                    fill={isLiked ? "#e93737" : "black"}
                   />
                 </LikeButton>
                 {likeNum === "undefined" || likeNum === 0 ? null : (

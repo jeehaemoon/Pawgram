@@ -89,13 +89,12 @@ const postPet = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const _id = uuidv4();
   const { type, breed, name, gender, age } = req.body;
-  console.log(req.file);
+
   try {
     await client.connect();
     const db = client.db("data");
     console.log("connected");
 
-    console.log(req.body);
     if (req.file === undefined) {
       res.status(400).json({ status: 400, message: "No Picture added" });
     }
@@ -170,7 +169,7 @@ const postPet = async (req, res) => {
 const getPetInfo = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const { _id } = req.params;
-  console.log(_id);
+
   try {
     await client.connect();
     const db = client.db("data");
@@ -279,7 +278,6 @@ const deletePet = async (req, res) => {
     await client.connect();
     const db = client.db("data");
     console.log("connected");
-    console.log(req.user.user._id);
 
     await db
       .collection("users")

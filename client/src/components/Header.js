@@ -4,7 +4,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import { UserContext } from "./UserContext";
 
 const Header = () => {
-  const { user } = useContext(UserContext);
+  const { user, newMessage } = useContext(UserContext);
   const [hamburgerStatus, setHamburgerStatus] = useState(false);
   const history = useHistory();
 
@@ -12,7 +12,6 @@ const Header = () => {
     setHamburgerStatus(!hamburgerStatus);
   };
 
-  console.log(user);
   return (
     <Container>
       <NavLinkItem exact to="/">
@@ -104,6 +103,7 @@ const Header = () => {
             Album
           </NavLinkItem>
           <NavLinkItem
+            style={{ color: newMessage ? "#e93737" : "black" }}
             className="desktop"
             exact
             to="/messages"

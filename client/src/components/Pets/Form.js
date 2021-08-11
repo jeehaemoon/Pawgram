@@ -17,21 +17,21 @@ const Form = () => {
   const [petBreeds, setPetBreeds] = useState(undefined);
   const [breedState, setBreedState] = useState("loading");
   const [buttonState, setButtonState] = useState(true);
-  const { token, setUser, user } = useContext(UserContext);
+  const { token, setUser, user, setPetPage } = useContext(UserContext);
   const history = useHistory();
   const [file, setFile] = useState("");
 
-  useEffect(() => {
-    fetch("/profile", {
-      method: "GET",
-      headers: { "auth-token": token },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setUser(data);
-      });
-  }, [token]);
+  // useEffect(() => {
+  //   fetch("/profile", {
+  //     method: "GET",
+  //     headers: { "auth-token": token },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       setUser(data);
+  //     });
+  // }, [token]);
 
   //retrieve breeds depending on the pet type selection
   useEffect(() => {
@@ -102,6 +102,7 @@ const Form = () => {
       .then((data) => {
         console.log(data);
         if (data.status === 200) {
+          setPetPage("added");
           history.push("/pets");
         }
       })

@@ -8,27 +8,27 @@ import Loading from "../Loading";
 const initialState = { date: "", time: "" };
 
 const MessageForm = () => {
-  const { token, setUser, user } = useContext(UserContext);
-  const [userStatus, setUserStatus] = useState("loading");
+  const { token, setUser, user, userStatus } = useContext(UserContext);
+  // const [userStatus, setUserStatus] = useState("loading");
   const [formData, setFormData] = useState(initialState);
   const [buttonState, setButtonState] = useState(true);
   const { _id } = useParams();
   const history = useHistory();
 
-  useEffect(() => {
-    fetch("/profile", {
-      method: "GET",
-      headers: { "auth-token": token },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUser(data);
-        setUserStatus("idle");
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [token]);
+  // useEffect(() => {
+  //   fetch("/profile", {
+  //     method: "GET",
+  //     headers: { "auth-token": token },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setUser(data);
+  //       setUserStatus("idle");
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // }, [token]);
 
   // set button state
   useEffect(() => {

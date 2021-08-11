@@ -6,33 +6,41 @@ import PlayDate from "./PlayDate";
 import Message from "./Message";
 
 const Messages = () => {
-  const { token, setUser, user, setNewMessage } = useContext(UserContext);
-  const [userStatus, setUserStatus] = useState("loading");
-  const [messageState, setMessageState] = useState(undefined);
+  const {
+    token,
+    setUser,
+    user,
+    setNewMessage,
+    userStatus,
+    messageState,
+    setMessageState,
+  } = useContext(UserContext);
+  // const [userStatus, setUserStatus] = useState("loading");
+  // const [messageState, setMessageState] = useState(undefined);
 
-  useEffect(() => {
-    fetch("/profile", {
-      method: "GET",
-      headers: { "auth-token": token },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUser(data);
-        setUserStatus("idle");
-        if (data.messages.length !== 0) {
-          const filteredMessage = data.messages.filter((message) => {
-            return message.accepted === undefined;
-          });
-          console.log(filteredMessage);
-          if (filteredMessage.length !== 0) {
-            setNewMessage(true);
-          }
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [token, messageState]);
+  // useEffect(() => {
+  //   fetch("/profile", {
+  //     method: "GET",
+  //     headers: { "auth-token": token },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setUser(data);
+  //       setUserStatus("idle");
+  //       if (data.messages.length !== 0) {
+  //         const filteredMessage = data.messages.filter((message) => {
+  //           return message.accepted === undefined;
+  //         });
+  //         console.log(filteredMessage);
+  //         if (filteredMessage.length !== 0) {
+  //           setNewMessage(true);
+  //         }
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // }, [token, messageState]);
 
   //function to reply to playdate
 

@@ -2,33 +2,33 @@ import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router";
 import { UserContext } from "../UserContext";
 import { NavLink, useHistory } from "react-router-dom";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import Loading from "../Loading";
 import { FaRegPaperPlane } from "react-icons/fa";
 
 const Friend = () => {
-  const { token, setUser, user } = useContext(UserContext);
-  const [userStatus, setUserStatus] = useState("loading");
+  const { token, setUser, user, userStatus } = useContext(UserContext);
+  // const [userStatus, setUserStatus] = useState("loading");
   const [friendInfo, setFriendInfo] = useState(undefined);
   const [friendStatus, setFriendStatus] = useState("loading");
   const [tabType, setTabType] = React.useState("pets");
   const { _id } = useParams();
   const history = useHistory();
 
-  useEffect(() => {
-    fetch("/profile", {
-      method: "GET",
-      headers: { "auth-token": token },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUser(data);
-        setUserStatus("idle");
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [token]);
+  // useEffect(() => {
+  //   fetch("/profile", {
+  //     method: "GET",
+  //     headers: { "auth-token": token },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setUser(data);
+  //       setUserStatus("idle");
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // }, [token]);
 
   //fetch user data
 
@@ -97,7 +97,7 @@ const Friend = () => {
       ) : (
         <Wrapper>
           <Info>
-            <h1>@{friendInfo.username}</h1>
+            <h1>{friendInfo.username}</h1>
 
             {friendInfo.friends.length === 0 ||
             friendInfo.friends.find((friend) => friend._id !== user._id) ? (
@@ -112,7 +112,7 @@ const Friend = () => {
               <ButtonDiv>
                 <FriendButton disabled>Friends</FriendButton>
                 <FaRegPaperPlane
-                  style={{ cursor: "pointer" }}
+                  className="icon"
                   onClick={() => history.push(`/send-message/${_id}`)}
                 />
               </ButtonDiv>
@@ -228,6 +228,10 @@ const PetDiv = styled(NavLink)`
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
   text-decoration: none;
   color: black;
+
+  @media (max-width: 700px) {
+    width: 50%;
+  }
 `;
 
 const ImageDiv = styled.div`
@@ -290,7 +294,7 @@ const FriendButton = styled.button`
 `;
 
 const RemoveFriendButton = styled.button`
-  width: 20%;
+  width: fit-content;
   z-index: 5;
   margin: 0px auto;
   margin-top: 20px;
@@ -310,9 +314,27 @@ const RemoveFriendButton = styled.button`
   }
 `;
 
+const bounce = keyframes`
+  from{
+    transform: translateY(0px) 
+   }
+  to {
+    transform: translateY(-5px);
+  }
+
+`;
+
 const ButtonDiv = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  .icon {
+    cursor: pointer;
+
+    :hover {
+      animation: ${bounce} 0.5s infinite alternate;
+    }
+  }
 `;
 export default Friend;

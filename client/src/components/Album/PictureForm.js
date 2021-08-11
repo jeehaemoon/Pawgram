@@ -8,25 +8,26 @@ import Loading from "../Loading";
 const initialState = { note: "" };
 
 const PictureForm = () => {
-  const { token, setUser } = useContext(UserContext);
+  const { token, setUser, albumStatus, setPicturePage } =
+    useContext(UserContext);
   const [file, setFile] = useState("");
-  const [albumStatus, setAlbumStatus] = useState("loading");
+  // const [albumStatus, setAlbumStatus] = useState("loading");
   const [formData, setFormData] = useState(initialState);
   const [buttonState, setButtonState] = useState(true);
   const history = useHistory();
 
   //fetch profile token
-  useEffect(() => {
-    fetch("/profile", {
-      method: "GET",
-      headers: { "auth-token": token },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUser(data);
-        setAlbumStatus("idle");
-      });
-  }, [token]);
+  // useEffect(() => {
+  //   fetch("/profile", {
+  //     method: "GET",
+  //     headers: { "auth-token": token },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setUser(data);
+  //       setAlbumStatus("idle");
+  //     });
+  // }, [token]);
 
   // set button state
   useEffect(() => {
@@ -57,6 +58,7 @@ const PictureForm = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 200) {
+          setPicturePage("added");
           history.push("/album");
         }
       })
