@@ -8,8 +8,7 @@ import Loading from "../Loading";
 const initialState = { note: "" };
 
 const PictureForm = () => {
-  const { token, setUser, albumStatus, setPicturePage } =
-    useContext(UserContext);
+  const { token, albumStatus, setPicturePage } = useContext(UserContext);
   const [file, setFile] = useState("");
   // const [albumStatus, setAlbumStatus] = useState("loading");
   const [formData, setFormData] = useState(initialState);

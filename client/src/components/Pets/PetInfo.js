@@ -7,8 +7,7 @@ import Input from "../Input";
 import Loading from "../Loading";
 
 const PetInfo = () => {
-  const { token, setUser, user, userStatus, setPetPage } =
-    useContext(UserContext);
+  const { token, user, userStatus, setPetPage } = useContext(UserContext);
   const [breedInfo, setBreedInfo] = useState(undefined);
   const [breedStatus, setBreedStatus] = useState("loading");
   const [tabType, setTabType] = React.useState("breedinfo");
@@ -18,7 +17,7 @@ const PetInfo = () => {
   const [formData, setFormData] = useState(undefined);
   const { _id } = useParams();
   const history = useHistory();
-
+  window.scrollTo(0, 0);
   const handleChange = (val, item) => {
     setFormData({ ...formData, [item]: val });
   };

@@ -8,7 +8,7 @@ import Loading from "../Loading";
 const initialState = { date: "", time: "" };
 
 const MessageForm = () => {
-  const { token, setUser, user, userStatus } = useContext(UserContext);
+  const { token, userStatus } = useContext(UserContext);
   // const [userStatus, setUserStatus] = useState("loading");
   const [formData, setFormData] = useState(initialState);
   const [buttonState, setButtonState] = useState(true);

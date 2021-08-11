@@ -15,7 +15,6 @@ export const UserProvider = ({ children }) => {
   const [pets, setPets] = useState([]);
   const [messageState, setMessageState] = useState(undefined);
   const [petPage, setPetPage] = useState(undefined);
-
   useEffect(() => {
     setToken(userToken);
   }, [token]);

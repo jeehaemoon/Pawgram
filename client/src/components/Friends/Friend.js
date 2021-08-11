@@ -7,7 +7,7 @@ import Loading from "../Loading";
 import { FaRegPaperPlane } from "react-icons/fa";
 
 const Friend = () => {
-  const { token, setUser, user, userStatus } = useContext(UserContext);
+  const { token, user, userStatus } = useContext(UserContext);
   // const [userStatus, setUserStatus] = useState("loading");
   const [friendInfo, setFriendInfo] = useState(undefined);
   const [friendStatus, setFriendStatus] = useState("loading");

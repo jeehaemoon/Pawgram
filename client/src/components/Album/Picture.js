@@ -23,6 +23,7 @@ const Picture = () => {
 
   const { _id } = useParams();
   const history = useHistory();
+  // window.scrollTo(0, 0);
 
   const handleChange = (val, item) => {
     setFormData({ ...formData, [item]: val });
@@ -221,12 +222,12 @@ const Picture = () => {
 };
 
 const Container = styled.div`
-  margin: 20vh 0px;
+  margin: 15vh 0px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 80vh;
+  min-height: 80vh;
 `;
 const LoadingDiv = styled.div`
   display: flex;
