@@ -5,27 +5,27 @@ import styled, { keyframes } from "styled-components";
 import Loading from "../Loading";
 
 const Pets = () => {
-  const { token, setUser, user } = useContext(UserContext);
-  const [petsStatus, setPetsStatus] = useState("loading");
-  const [pets, setPets] = useState([]);
+  const { token, setUser, user, pets, petsStatus } = useContext(UserContext);
+  // const [petsStatus, setPetsStatus] = useState("loading");
+  // const [pets, setPets] = useState([]);
   // const [file, setFile] = useState("");
   const history = useHistory();
-  useEffect(() => {
-    fetch("/profile", {
-      method: "GET",
-      headers: { "auth-token": token },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setUser(data);
-        setPetsStatus("idle");
-        setPets(data.pets);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [token]);
+  // useEffect(() => {
+  //   fetch("/profile", {
+  //     method: "GET",
+  //     headers: { "auth-token": token },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       setUser(data);
+  //       setPetsStatus("idle");
+  //       setPets(data.pets);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // }, [token]);
 
   return (
     <Container>

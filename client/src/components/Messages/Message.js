@@ -7,11 +7,11 @@ const Message = ({ user, handleSubmitMessage }) => {
       {user.messages.map((message, index) => {
         return (
           <MessageDiv key={index}>
-            <div>
+            <Text>
               Play Date invitation from <strong>{message.username}</strong> on{" "}
               <strong>{message.date}</strong> at <strong>{message.time}</strong>
               ?
-            </div>
+            </Text>
             {message.accepted !== undefined ? (
               <div>Refused</div>
             ) : (
@@ -77,5 +77,9 @@ const Button = styled.button`
     box-shadow: inset 0px 0px 5px #c1c1c1;
     outline: none;
   }
+`;
+
+const Text = styled.div`
+  width: 70%;
 `;
 export default Message;

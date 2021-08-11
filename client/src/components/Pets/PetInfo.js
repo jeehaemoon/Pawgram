@@ -7,13 +7,14 @@ import Input from "../Input";
 import Loading from "../Loading";
 
 const PetInfo = () => {
-  const { token, setUser, user } = useContext(UserContext);
+  const { token, setUser, user, userStatus, setPetPage } =
+    useContext(UserContext);
   const [breedInfo, setBreedInfo] = useState(undefined);
   const [breedStatus, setBreedStatus] = useState("loading");
   const [tabType, setTabType] = React.useState("breedinfo");
   const [fact, setFact] = useState(undefined);
   const [factStatus, setFactStatus] = useState("loading");
-  const [userStatus, setUserStatus] = useState("loading");
+  // const [userStatus, setUserStatus] = useState("loading");
   const [formData, setFormData] = useState(undefined);
   const { _id } = useParams();
   const history = useHistory();
@@ -23,20 +24,20 @@ const PetInfo = () => {
   };
 
   //fetch profile and store token
-  useEffect(() => {
-    fetch("/profile", {
-      method: "GET",
-      headers: { "auth-token": token },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUser(data);
-        setUserStatus("idle");
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [token]);
+  // useEffect(() => {
+  //   fetch("/profile", {
+  //     method: "GET",
+  //     headers: { "auth-token": token },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setUser(data);
+  //       setUserStatus("idle");
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // }, [token]);
 
   //fetch pet info from the id
   useEffect(() => {
@@ -113,6 +114,7 @@ const PetInfo = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 200) {
+          setPetPage("deleted");
           history.push("/pets");
         }
       })
@@ -132,6 +134,7 @@ const PetInfo = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 200) {
+          setPetPage("edited");
           history.push("/pets");
         }
       })
@@ -237,10 +240,17 @@ const PetInfo = () => {
               </Info>
             )}
           </PetDiv>
-          <div>
-            <Button onClick={showBreed}>Breed Info</Button>
-            <Button onClick={showRandom}>Random Fact</Button>
-          </div>
+
+          {breedInfo.owner === user.username ? (
+            <div>
+              <Button onClick={showBreed}>Breed Info</Button>
+              <Button onClick={showRandom}>Random Fact</Button>
+            </div>
+          ) : (
+            <div>
+              <BreedInfoButton onClick={showBreed}>Breed Info</BreedInfoButton>
+            </div>
+          )}
           {tabType === "breedinfo" ? (
             <BreedInfo>
               <BreedImg alt="image" src={breedInfo.info[0].image.url} />
@@ -257,19 +267,24 @@ const PetInfo = () => {
                     {breedInfo.info[0].bred_for}
                   </div>
                   <div>
+                    <span>Lifespan:</span> {breedInfo.info[0].life_span}
+                  </div>
+                  <div>
                     <span>Height:</span> {breedInfo.info[0].height.metric} cm
                   </div>
                 </div>
               ) : (
-                <div>
-                  <span>Origin:</span> {breedInfo.info[0].origin}
-                </div>
+                <>
+                  <div>
+                    <span>Origin:</span> {breedInfo.info[0].origin}
+                  </div>
+                  <div>
+                    <span>Lifespan:</span> {breedInfo.info[0].life_span} Years
+                  </div>
+                </>
               )}
               <div>
                 <span>Weight:</span> {breedInfo.info[0].weight.metric} kg
-              </div>
-              <div>
-                <span>Lifespan:</span> {breedInfo.info[0].life_span} Years
               </div>
               <div>
                 <span>Temperament:</span> {breedInfo.info[0].temperament}
@@ -277,11 +292,13 @@ const PetInfo = () => {
             </BreedInfo>
           ) : tabType === "random" &&
             factStatus === "idle" &&
-            breedInfo.type === "dog" ? (
+            breedInfo.type === "dog" &&
+            breedInfo.owner === user.username ? (
             <RandomFact>{fact[0]}</RandomFact>
           ) : tabType === "random" &&
             factStatus === "idle" &&
-            breedInfo.type === "cat" ? (
+            breedInfo.type === "cat" &&
+            breedInfo.owner === user.username ? (
             <RandomFact>{fact}</RandomFact>
           ) : tabType === "random" && factStatus === "loading" ? (
             <div>Loading...</div>
@@ -345,6 +362,21 @@ const Button = styled.button`
   margin-top: 10px;
   :focus,
   :hover {
+    color: #56acf5;
+    border-bottom: 2px solid #56acf5;
+  }
+`;
+
+const BreedInfoButton = styled.div`
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid black;
+  background-color: white;
+  font-weight: bold;
+  padding: 5px;
+  margin-top: 10px;
+  text-align: center;
+  :focus {
     color: #56acf5;
     border-bottom: 2px solid #56acf5;
   }

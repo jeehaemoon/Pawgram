@@ -50,7 +50,6 @@ const signUp = async (req, res) => {
     const user = await db
       .collection("users")
       .findOne({ $or: [{ email: email }, { username: username }] });
-    console.log(user);
     // if user already exists, then send a message
     if (user !== undefined) {
       if (user.username === username) {

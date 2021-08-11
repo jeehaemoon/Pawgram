@@ -94,7 +94,6 @@ const deleteFriend = async (req, res) => {
     await client.connect();
     const db = client.db("data");
     console.log("connected");
-    console.log(req.user.user._id);
 
     await db
       .collection("users")

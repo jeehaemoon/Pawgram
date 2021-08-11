@@ -25,7 +25,6 @@ const getProfile = async (req, res) => {
     const profile = await db
       .collection("users")
       .findOne({ _id: req.user.user._id });
-    console.log(profile);
 
     res.send({
       _id: profile._id,

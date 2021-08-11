@@ -6,23 +6,23 @@ import SearchBar from "../SearchBar";
 import Loading from "../Loading";
 
 const Friends = () => {
-  const { setUser, user, token } = useContext(UserContext);
-  const [userStatus, setUserStatus] = useState("loading");
+  const { setUser, user, token, userStatus } = useContext(UserContext);
+  // const [userStatus, setUserStatus] = useState("loading");
 
-  useEffect(() => {
-    fetch("/profile", {
-      method: "GET",
-      headers: { "auth-token": token },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUser(data);
-        setUserStatus("idle");
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [token]);
+  // useEffect(() => {
+  //   fetch("/profile", {
+  //     method: "GET",
+  //     headers: { "auth-token": token },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setUser(data);
+  //       setUserStatus("idle");
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // }, [token]);
   return (
     <Container>
       <SearchBar />
@@ -40,7 +40,11 @@ const Friends = () => {
             {user.friends.map((friend, index) => {
               return (
                 <FriendLink key={index} exact to={`/friends/${friend._id}`}>
-                  @{friend.username}
+                  <ProfileDiv>
+                    <img alt="collar" src="/assets/collar.png" />
+                    <strong>{friend.username}</strong>
+                  </ProfileDiv>
+                  <FriendsDiv>Friends</FriendsDiv>
                 </FriendLink>
               );
             })}
@@ -89,20 +93,49 @@ const NoFriendDiv = styled.div`
 `;
 
 const FriendLink = styled(NavLink)`
-  width: 100px;
-  height: 100px;
+  width: 90%;
+  height: 50px;
+  padding: 5px 10px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  margin-right: 20px;
+  margin: 5px 20px;
   border-radius: 20px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
   text-decoration: none;
   color: black;
+
+  :active {
+    -webkit-box-shadow: inset 0px 0px 5px #e5e5e5;
+    -moz-box-shadow: inset 0px 0px 5px #e5e5e5;
+    box-shadow: inset 0px 0px 5px #e5e5e5;
+    outline: none;
+  }
 `;
 
 const DogPic = styled.img`
   width: 300px;
+`;
+
+const ProfileDiv = styled.div`
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 40px;
+    margin-right: 10px;
+  }
+`;
+
+const FriendsDiv = styled.div`
+  background-color: #56acf5;
+  color: white;
+  font-weight: bold;
+  border: none;
+  width: fit-content;
+  padding: 5px 20px;
+  border-radius: 20px;
 `;
 export default Friends;

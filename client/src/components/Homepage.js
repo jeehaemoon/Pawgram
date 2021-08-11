@@ -10,22 +10,22 @@ const Homepage = () => {
   const { token, setUser } = useContext(UserContext);
   const history = useHistory();
 
-  useEffect(() => {
-    if (token !== null) {
-      fetch("/profile", {
-        method: "GET",
-        headers: { "auth-token": token },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          setUser(data);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-  }, [token]);
+  // useEffect(() => {
+  //   if (token !== null) {
+  //     fetch("/profile", {
+  //       method: "GET",
+  //       headers: { "auth-token": token },
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         console.log(data);
+  //         setUser(data);
+  //       })
+  //       .catch((err) => {
+  //         console.error(err);
+  //       });
+  //   }
+  // }, [token]);
 
   return (
     <Container>

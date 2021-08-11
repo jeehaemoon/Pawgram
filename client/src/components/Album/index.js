@@ -5,30 +5,29 @@ import styled from "styled-components";
 import Loading from "../Loading";
 
 const Album = () => {
-  const { token, setUser } = useContext(UserContext);
-  const [albumStatus, setAlbumStatus] = useState("loading");
-  const [pictures, setPictures] = useState(undefined);
+  const { token, setUser, albumStatus, pictures } = useContext(UserContext);
+
   const history = useHistory();
 
-  useEffect(() => {
-    fetch("/profile", {
-      method: "GET",
-      headers: { "auth-token": token },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUser(data);
-        if (data.album.length !== 0) {
-          setPictures(data.album);
-          setAlbumStatus("idle");
-        } else if (data.album.length === 0) {
-          setAlbumStatus("empty");
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [token]);
+  // useEffect(() => {
+  //   fetch("/profile", {
+  //     method: "GET",
+  //     headers: { "auth-token": token },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setUser(data);
+  //       if (data.album.length !== 0) {
+  //         setPictures(data.album);
+  //         setAlbumStatus("idle");
+  //       } else if (data.album.length === 0) {
+  //         setAlbumStatus("empty");
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // }, [token]);
 
   return (
     <Container>
