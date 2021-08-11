@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { UserContext } from "../UserContext";
 import { useHistory, NavLink } from "react-router-dom";
 import styled from "styled-components";
 import Loading from "../Loading";
 
 const Album = () => {
-  const { token, setUser, albumStatus, pictures } = useContext(UserContext);
+  const { albumStatus, pictures } = useContext(UserContext);
 
   const history = useHistory();
 

@@ -17,7 +17,7 @@ const Form = () => {
   const [petBreeds, setPetBreeds] = useState(undefined);
   const [breedState, setBreedState] = useState("loading");
   const [buttonState, setButtonState] = useState(true);
-  const { token, setUser, user, setPetPage } = useContext(UserContext);
+  const { token, setPetPage } = useContext(UserContext);
   const history = useHistory();
   const [file, setFile] = useState("");
 

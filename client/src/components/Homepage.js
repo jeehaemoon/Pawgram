@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { UserContext } from "./UserContext";
 import { useHistory } from "react-router-dom";
 import { ReactComponent as SVG1 } from "../svg/vector-1-1.svg";
@@ -7,7 +7,7 @@ import { ReactComponent as SVG2 } from "../svg/vector-1-2.svg";
 import styled from "styled-components";
 
 const Homepage = () => {
-  const { token, setUser } = useContext(UserContext);
+  const { token } = useContext(UserContext);
   const history = useHistory();
 
   // useEffect(() => {

@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { UserContext } from "../UserContext";
 import { useHistory, NavLink } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import Loading from "../Loading";
 
 const Pets = () => {
-  const { token, setUser, user, pets, petsStatus } = useContext(UserContext);
+  const { user, pets, petsStatus } = useContext(UserContext);
   // const [petsStatus, setPetsStatus] = useState("loading");
   // const [pets, setPets] = useState([]);
   // const [file, setFile] = useState("");

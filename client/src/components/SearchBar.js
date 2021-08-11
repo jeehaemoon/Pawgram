@@ -1,10 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "./UserContext";
-import { NavLink, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 const SearchBar = () => {
-  const { token, setUser, user } = useContext(UserContext);
+  const { token, setUser } = useContext(UserContext);
   const [searchValue, setSearchValue] = useState("");
   const [itemList, setItemList] = useState(undefined);
   const [userStatus, setUserStatus] = useState("loading");

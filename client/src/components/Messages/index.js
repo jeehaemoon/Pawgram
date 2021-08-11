@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { UserContext } from "../UserContext";
 import Loading from "../Loading";
@@ -6,15 +6,7 @@ import PlayDate from "./PlayDate";
 import Message from "./Message";
 
 const Messages = () => {
-  const {
-    token,
-    setUser,
-    user,
-    setNewMessage,
-    userStatus,
-    messageState,
-    setMessageState,
-  } = useContext(UserContext);
+  const { token, user, userStatus, setMessageState } = useContext(UserContext);
   // const [userStatus, setUserStatus] = useState("loading");
   // const [messageState, setMessageState] = useState(undefined);
 
@@ -52,6 +44,8 @@ const Messages = () => {
     time,
     accepted
   ) => {
+    setMessageState("idle");
+
     fetch(`/messages-reply/${messageId}`, {
       method: "POST",
       headers: { "auth-token": token, "Content-Type": "application/json" },
@@ -66,7 +60,7 @@ const Messages = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        console.log(data.message);
         setMessageState(data.message);
       })
       .catch((err) => {

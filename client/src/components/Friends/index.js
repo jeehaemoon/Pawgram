@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { UserContext } from "../UserContext";
 import { NavLink } from "react-router-dom";
@@ -6,7 +6,7 @@ import SearchBar from "../SearchBar";
 import Loading from "../Loading";
 
 const Friends = () => {
-  const { setUser, user, token, userStatus } = useContext(UserContext);
+  const { user, userStatus } = useContext(UserContext);
   // const [userStatus, setUserStatus] = useState("loading");
 
   // useEffect(() => {
