@@ -21,6 +21,8 @@ The APIs that I used are used to get general information about the Dog or Cat's 
 
 ## Run-through
 
+[Demo](https://www.youtube.com/watch?v=sGchwurvjVg&t=2s&ab_channel=jeejimon)
+
 All illustrations are from the amazing artist [Mariana Gonzalez Vega](https://blush.design/collections/40G09koP55fYh86yZDnX/stuck-at-home).
 
 For both the `client` and the `server` folders do a `yarn install` and a `yarn start`
@@ -31,7 +33,7 @@ For both the `client` and the `server` folders do a `yarn install` and a `yarn s
 
 ### 2. Sign Up, Sign In
 
-I used JWT for authentication. Using local storage, I store the token once logging into a profile, and remove it once logged out.
+I used **JWT** for authentication. Using local storage, I store the token once logging into a profile, and remove it once logged out.
 
 ### 3. Profile/Pets Page
 
@@ -49,3 +51,7 @@ I used JWT for authentication. Using local storage, I store the token once loggi
 ### 6. Album Page
 
 - You can add pictures of your pet. Other users can "paw" the picture and comment on it.
+
+### Note
+
+- The website is also responsive :)
